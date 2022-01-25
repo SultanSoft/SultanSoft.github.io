@@ -1,4 +1,4 @@
-If (GPB = "BPitW") {echo $True}
+If (GPB -eq "BPitW") {echo $True}
 
 Result:
 ```
