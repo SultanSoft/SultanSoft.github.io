@@ -1,15 +1,6 @@
-# Header 1
-## Header 2
-### Header 3
+If (GPB = "BPitW") {echo $True}
 
-This is plain text
-
-**This is bold text**
-
-*This is itallic text*
-
-~~This is strikethrough text~~
-
-|This|is|A|Table|
-|---|---|---|---|
-|One|Two|Three|Four|
+Result:
+```
+True
+```
