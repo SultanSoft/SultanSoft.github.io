@@ -1,5 +1,3 @@
-# Header 1
-## Header 2
-### Header 3
+# Welcome to my page dudes!
 
-**This is bold text**
+This page was created using markdown in github.
