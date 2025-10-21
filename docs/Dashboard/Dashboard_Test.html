@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard</title>
+  <style>
+    :root{
+      --bg:#000;
+      --panel:#2c2c2c;
+      --text:#fff;
+      --muted:#bdbdbd;
+      --pst-color:#ff3b3b;
+      --mnt-color:#8FEE6A; /* light green for Mountain */
+      --cst-color:#b8860b;
+      --est-color:#6EC6FF; /* light blue for Eastern */
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Topbar layout: (now treated as a 5-column grid so each panel is evenly spaced) */
+    .topbar{
+      display:grid;
+      grid-template-columns: repeat(5, auto);
+      align-items:center;
+      gap:12px;
+      justify-content:space-between;
+      padding:20px 28px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+      border-bottom: none;
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Let the original slot wrappers be transparent to the grid so their children (the 5 panels)
+       become the topbar's effective children and occupy the 5 grid columns in sequence. */
+    .left-slot, .center-slot, .right-slot{
+      display:contents;
+    }
+
+    .left-slot > .clock,
+    .center-slot > .date-panel,
+    .right-slot > .clock{
+      justify-self:center;
+    }
+
+    .clock{
+      background:var(--panel);
+      padding:12px 18px;
+      border-radius:10px;
+      min-width:330px; /* 50% wider than original 220px */
+      text-align:center;
+      box-shadow:0 2px 8px rgba(255,255,255,0.02);
+      box-sizing:border-box;
+    }
+
+    .time {
+      font-size:84px;
+      font-weight:800;
+      line-height:1;
+      letter-spacing:0.02em;
+    }
+
+    .tz {
+      margin-top:6px;
+      font-size:20px;
+      font-weight:800;
+      text-transform:none;
+      letter-spacing:0.02em;
+      color:var(--muted);
+    }
+
+    #pst-clock .time{ color: var(--pst-color); }
+    #mnt-clock .time{ color: var(--mnt-color); }
+    #cst-clock .time{ color: var(--cst-color); }
+    #est-clock .time{ color: var(--est-color); }
+
+    .date-panel{
+      background:var(--panel);
+      padding:12px 18px;
+      border-radius:10px;
+      text-align:center;
+      box-shadow:0 2px 8px rgba(255,255,255,0.02);
+      min-width:260px;
+      box-sizing:border-box;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:140px;
+    }
+
+    .date-block{
+      color:var(--muted);
+      font-weight:800;
+      line-height:1;
+      width:100%;
+    }
+    .date-main{
+      font-size:44px;
+      text-align:center;
+      color:var(--text);
+      font-weight:800;
+    }
+    .date-weekday{
+      margin-top:8px;
+      font-size:32px;
+      color:var(--muted);
+      font-weight:800;
+      text-align:center;
+    }
+
+    .container{
+      padding:22px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:20px;
+      max-width:1200px;
+      margin:26px auto;
+      box-sizing:border-box;
+    }
+
+    .left{
+      display:grid;
+      grid-template-rows: auto 1fr;
+      gap:20px;
+      justify-items:center;
+    }
+
+    .panel{
+      background:var(--panel);
+      padding:9px;
+      border-radius:9px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.6);
+      color:var(--text);
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      width:max-content;
+      max-width:100%;
+      box-sizing:border-box;
+      position:fixed;
+      right:20px;
+      top:120px;
+      transform:none;
+      z-index:15;
+    }
+
+    .video-wrapper{
+      width: min(25vw, 390px);
+      min-width: 195px;
+      aspect-ratio:16/9;
+      background:#000;
+      border-radius:7.5px;
+      overflow:hidden;
+      display:block;
+    }
+
+    .video-wrapper iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    .widget-row{
+      max-width:1200px;
+      margin:12px auto 40px;
+      padding:0 22px;
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:-20px;
+      z-index:20;
+      display:flex;
+      justify-content:center;
+      pointer-events:auto;
+      background:transparent;
+    }
+
+    @media (max-width:1000px){
+      .container{ grid-template-columns: 1fr; padding:12px; }
+      .topbar{ grid-template-columns: 1fr; gap:10px; padding:12px; justify-content:center; }
+      .center-slot{ order:3; }
+      .left-slot, .right-slot{ justify-content:space-between; }
+      .time{ font-size:48px; }
+      .date-main{ font-size:32px; } /* scale down on small screens */
+      .date-weekday{ font-size:24px; }
+      .video-wrapper{ width:90%; min-width:150px; }
+      .panel{ padding:8px; right:12px; top:auto; bottom:140px; }
+      .widget-row{ bottom:-10px; }
+      .clock{ min-width:270px; padding:10px 14px; } /* 50% wider than previous small-screen 180px */
+      /* On narrow screens fall back to stacked layout */
+      .topbar{ grid-template-columns: 1fr; }
+      .left-slot, .center-slot, .right-slot{ display:flex; justify-content:space-between; gap:8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="left-slot">
+      <div class="clock" id="pst-clock" aria-label="Pacific clock">
+        <div class="time" id="pst-time">--:--</div>
+        <div class="tz">Pacific</div>
+      </div>
+
+      <div class="clock" id="mnt-clock" aria-label="Mountain clock">
+        <div class="time" id="mnt-time">--:--</div>
+        <div class="tz">Mountain</div>
+      </div>
+    </div>
+
+    <div class="center-slot">
+      <div class="date-panel" aria-live="polite">
+        <div class="date-block">
+          <div class="date-main" id="date-main">Loading date...</div>
+          <div class="date-weekday" id="date-weekday">Loading day...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-slot">
+      <div class="clock" id="cst-clock" aria-label="Central clock">
+        <div class="time" id="cst-time">--:--</div>
+        <div class="tz">Central</div>
+      </div>
+
+      <div class="clock" id="est-clock" aria-label="Eastern clock">
+        <div class="time" id="est-time">--:--</div>
+        <div class="tz">Eastern</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="left">
+      <div class="panel" id="video-panel">
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/Ezm7jMHsx5A?rel=0&autoplay=1&mute=1&controls=1"
+                  title="YouTube video player"
+                  allow="autoplay; encrypted-media; fullscreen"
+                  allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="widget-row">
+    <div id="ww_3fedb8ec2d07e" v='1.3' loc='id' a='{"t":"responsive","lang":"en","sl_lpl":1,"ids":["wl2343"],"font":"Arial","sl_ics":"one","sl_sot":"fahrenheit","cl_bkg":"#616161","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_tof":"5","cl_odd":"#0000000a"}'>More forecasts: <a href="https://oneweather.org/new_york_city/30_days/" id="ww_3fedb8ec2d07e_u" target="_blank">New York 30 day forecast</a></div>
+    <script async src="https://app3.weatherwidget.org/js/?id=ww_3fedb8ec2d07e"></script>
+  </div>
+
+  <script>
+    function format12NoSuffix(date, timeZone) {
+      const opts = { timeZone, hour: 'numeric', minute: '2-digit', hour12: true };
+      const s = date.toLocaleTimeString('en-US', opts);
+      return s.replace(/\s*[APap]\.?M\.?$/i, '').trim();
+    }
+
+    function updateClocks(){
+      const now = new Date();
+      document.getElementById('pst-time').textContent = format12NoSuffix(now, 'America/Los_Angeles');
+      document.getElementById('mnt-time').textContent = format12NoSuffix(now, 'America/Denver');
+      document.getElementById('cst-time').textContent = format12NoSuffix(now, 'America/Chicago');
+      document.getElementById('est-time').textContent = format12NoSuffix(now, 'America/New_York');
+    }
+
+    function updateDate(){
+      const now = new Date();
+      const dateOpts = { timeZone: 'America/Los_Angeles', year:'numeric', month:'long', day:'numeric' };
+      const weekdayOpts = { timeZone: 'America/Los_Angeles', weekday:'long' };
+      document.getElementById('date-main').textContent = now.toLocaleDateString('en-US', dateOpts);
+      document.getElementById('date-weekday').textContent = now.toLocaleDateString('en-US', weekdayOpts);
+    }
+
+    setInterval(updateClocks, 1000);
+    updateClocks();
+    updateDate();
+
+    // Position the fixed video panel directly below the Eastern clock (est-clock)
+    function positionPanelUnderEST() {
+      const estClock = document.getElementById('est-clock');
+      const panel = document.getElementById('video-panel');
+      if (!estClock || !panel) return;
+
+      const rect = estClock.getBoundingClientRect();
+      const offset = 8;
+      const top = rect.bottom + offset;
+
+      const panelHeight = panel.getBoundingClientRect().height || panel.offsetHeight || 0;
+      const maxTop = window.innerHeight - panelHeight - 20;
+      panel.style.top = Math.min(top, Math.max(12, maxTop)) + 'px';
+    }
+
+    window.addEventListener('load', () => {
+      positionPanelUnderEST();
+      setTimeout(positionPanelUnderEST, 200);
+    });
+    window.addEventListener('resize', positionPanelUnderEST);
+    const topbar = document.querySelector('.topbar');
+    if (topbar && window.ResizeObserver) {
+      new ResizeObserver(positionPanelUnderEST).observe(topbar);
+    }
+
+    // Auto-refresh the page every hour (3600000 ms)
+    // Uses location.reload() and a cache-busting query param to ensure fresh content
+    function scheduleHourlyRefresh() {
+      const hourMs = 60 * 60 * 1000;
+      setTimeout(() => {
+        // Add cache-busting timestamp param while preserving existing query string
+        const url = new URL(window.location.href);
+        url.searchParams.set('_r', Date.now());
+        window.location.href = url.toString();
+      }, hourMs);
+      // Also keep a repeating interval in case setTimeout is cleared
+      setInterval(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('_r', Date.now());
+        window.location.href = url.toString();
+      }, hourMs);
+    }
+    scheduleHourlyRefresh();
+  </script>
+</body>
+</html>
+```
