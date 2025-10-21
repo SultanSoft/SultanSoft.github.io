@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Trains x9</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+      background-color: #000;
+      overflow: hidden;
+      height: 100vh;
+    }
+    .video-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2px;
+      padding: 0px;
+    }
+    .video-container {
+      flex: 1 1 calc(33% - 6px);
+      aspect-ratio: 16 / 9;
+      max-width: 33%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #liveAllBtn, #togglePlayBtn, #toggleMuteBtn {
+      position: fixed;
+      top: 10px;
+      z-index: 999;
+      padding: 7px 14px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      width: 100px;
+      height: 30px;
+      user-select: none;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 2px solid;
+    }
+
+    #liveAllBtn {
+      right: 230px;
+      background-color: #8B0000;
+      color: black;
+      border-color: red;
+    }
+
+    #togglePlayBtn {
+      right: 120px;
+      background-color: #000;
+      color: #006400;
+      border-color: #006400;
+    }
+
+    #toggleMuteBtn {
+      right: 10px;
+      background-color: #000;
+      color: red;
+      border-color: red;
+    }
+  </style>
+</head>
+<body>
+  <button id="liveAllBtn">LIVE ALL</button>
+  <button id="togglePlayBtn">Pause All</button>
+  <button id="toggleMuteBtn">Unmute All</button>
+
+  <div class="video-grid">
+    <div class="video-container"><iframe id="player1" src="https://www.youtube.com/embed/ZHtA91NVHdw?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-container"><iframe id="player2" src="https://www.youtube.com/embed/772JYypk_R0?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-container"><iframe id="player3" src="https://www.youtube.com/embed/8ft5kUvq27U?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-container"><iframe id="player4" src="https://www.youtube.com/embed/GKjSoXuZ0hU?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-container"><iframe id="player5" src="https://www.youtube.com/embed/NXmFAhX_3vY?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-container"><iframe id="player6" src="https://www.youtube.com/embed/bchdO4OtIEI?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-container"><iframe id="player7" src="https://www.youtube.com/embed/OmWt0efvmNQ?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-container"><iframe id="player8" src="https://www.youtube.com/embed/oAJH5nZgrNQ?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-container"><iframe id="player9" src="https://www.youtube.com/embed/wKLX7B3Q01Q?enablejsapi=1&autoplay=1&mute=1" allow="autoplay" allowfullscreen></iframe></div>
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    const playerIds = ['player1','player2','player3','player4','player5','player6','player7','player8','player9'];
+    const players = {};
+    let isMuted = true;
+    let isPaused = false;
+
+    function onYouTubeIframeAPIReady() {
+      playerIds.forEach(id => {
+        players[id] = new YT.Player(id);
+      });
+    }
+
+    document.getElementById('toggleMuteBtn').addEventListener('click', () => {
+      Object.values(players).forEach(player => {
+        if (player && typeof player.unMute === 'function' && typeof player.mute === 'function') {
+          isMuted ? player.unMute() : player.mute();
+        }
+      });
+
+      isMuted = !isMuted;
+      const btn = document.getElementById('toggleMuteBtn');
+      btn.textContent = isMuted ? 'Unmute All' : 'Mute All';
+      btn.style.color = isMuted ? 'red' : '#006400';
+      btn.style.borderColor = isMuted ? 'red' : '#006400';
+    });
+
+    document.getElementById('togglePlayBtn').addEventListener('click', () => {
+      Object.values(players).forEach(player => {
+        if (player && typeof player.pauseVideo === 'function' && typeof player.playVideo === 'function') {
+          isPaused ? player.playVideo() : player.pauseVideo();
+        }
+      });
+
+      isPaused = !isPaused;
+      const btn = document.getElementById('togglePlayBtn');
+      btn.textContent = isPaused ? 'Play All' : 'Pause All';
+      btn.style.color = isPaused ? 'red' : '#006400';
+      btn.style.borderColor = isPaused ? 'red' : '#006400';
+    });
+
+    document.getElementById('liveAllBtn').addEventListener('click', () => {
+      Object.values(players).forEach(player => {
+        if (player && typeof player.getDuration === 'function' && typeof player.seekTo === 'function') {
+          const duration = player.getDuration();
+          player.seekTo(duration - 1, true); // Seek near end
+        }
+      });
+    });
+  </script>
+</body>
+</html>

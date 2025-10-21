@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Popular Websites</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-weight: bold;
+      margin: 2em;
+      background-color: #000;
+      color: #fff;
+    }
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2em;
+      gap: 1em;
+    }
+    .search-container img {
+      height: 40px;
+    }
+    .search-container form {
+      display: flex;
+      align-items: center;
+    }
+    .search-container input[type="text"] {
+      width: 300px;
+      padding: 0.5em;
+      font-size: 0.9em;
+      border-radius: 4px;
+      border: none;
+      font-weight: bold;
+    }
+    .search-container input[type="submit"] {
+      padding: 0.5em 1em;
+      font-size: 0.9em;
+      margin-left: 0.5em;
+      border-radius: 4px;
+      border: none;
+      background-color: #1e90ff;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1em;
+    }
+    .markdown-body {
+      background-color: #1a1a1a;
+      color: inherit;
+      font-weight: bold;
+      padding: 1em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+    .markdown-body h1 {
+      margin-top: 0;
+      margin-bottom: 0.15em;
+      font-size: 1.8em;
+    }
+    .markdown-body p {
+      margin: 0;
+      line-height: 1;
+    }
+    .markdown-body a {
+      color: #1e90ff;
+      font-size: 1.44em;
+      text-decoration: none;
+      display: block;
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+      font-weight: bold;
+    }
+    .markdown-body a:hover {
+      text-decoration: underline;
+    }
+    .bottom-nav a {
+      color: #1e90ff;
+      font-size: 1.44em;
+      text-decoration: none;
+      margin: 0 0.5em;
+      font-weight: bold;
+    }
+    .bottom-nav a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="search-container">
+    <a href="https://www.google.com">
+      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google Logo">
+    </a>
+    <form action="https://www.google.com/search" method="get">
+      <input type="text" name="q" id="google-search" placeholder="Search Google...">
+      <input type="submit" value="Search">
+    </form>
+  </div>
+
+  <div class="columns">
+    <div class="markdown-body" id="col1"></div>
+    <div class="markdown-body" id="col2"></div>
+    <div class="markdown-body" id="col3"></div>
+    <div class="markdown-body" id="col4"></div>
+    <div class="markdown-body" id="col5"></div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      document.getElementById('google-search').focus();
+    };
+
+    const markdownColumns = [
+      `
+# Column 1  
+[Google](https://www.google.com)  
+[YouTube](https://www.youtube.com)  
+[Reddit](https://www.reddit.com)  
+[Facebook](https://www.facebook.com)  
+[Twitter](https://www.twitter.com)
+      `,
+      `
+# Column 2  
+[Wikipedia](https://www.wikipedia.org)  
+[Quora](https://www.quora.com)  
+[Stack Overflow](https://stackoverflow.com)  
+[Medium](https://www.medium.com)  
+[Britannica](https://www.britannica.com)  
+[HowStuffWorks](https://www.howstuffworks.com)  
+[Internet Archive](https://archive.org)  
+[Atlas Obscura](https://www.atlasobscura.com)
+      `,
+      `
+# Column 3  
+[Amazon](https://www.amazon.com)  
+[eBay](https://www.ebay.com)  
+[Etsy](https://www.etsy.com)  
+[AliExpress](https://www.aliexpress.com)  
+[Walmart](https://www.walmart.com)
+      `,
+      `
+# Column 4  
+[Steam](https://store.steampowered.com)  
+[IGN](https://www.ign.com)  
+[Twitch](https://www.twitch.tv)  
+[Epic Games](https://www.epicgames.com)  
+[GameSpot](https://www.gamespot.com)  
+[Polygon](https://www.polygon.com)  
+[Nintendo](https://www.nintendo.com)  
+[Metacritic](https://www.metacritic.com)
+      `,
+      `
+# Column 5  
+[Khan Academy](https://www.khanacademy.org)  
+[Coursera](https://www.coursera.org)  
+[Duolingo](https://www.duolingo.com)  
+[TED](https://www.ted.com)  
+[edX](https://www.edx.org)
+      `
+    ];
+
+    markdownColumns.forEach((md, i) => {
+      document.getElementById(`col${i + 1}`).innerHTML = marked.parse(md);
+    });
+  </script>
+
+  <div class="bottom-nav" style="text-align: center; margin-top: 2em;">
+    <a href="page2.html">-- Page 2 --</a>
+    <a href="page3.html">-- Page 3 --</a>
+  </div>
+</body>
+</html>
