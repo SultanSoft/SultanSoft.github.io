@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>My Links</title>
+<style>
+  :root{
+    --bg:#1f1f1f;
+    --muted:#9aa7bb;
+    --link:#7fd1ff;
+    --text:#e6eef8;
+    --gap:70px;
+    --radius:10px;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue";
+  }
+
+  html,body{height:100%;margin:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding:24px;
+    box-sizing:border-box;
+  }
+
+  .wrap{max-width:100%;margin:0 auto;}
+
+  header{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    margin-bottom:18px;
+  }
+
+  .brand{display:flex;flex-direction:column;gap:4px;}
+  .brand .title{font-size:18px;font-weight:700;}
+
+  .search-wrap{
+    flex:1;
+    display:flex;
+    justify-content:center;
+  }
+
+  .search-group{
+    display:flex;
+    gap:12px;
+    width:100%;
+    max-width:980px;
+    justify-content:center;
+  }
+
+  .search-container{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    max-width:460px;
+    background:rgba(255,255,255,0.02);
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.03);
+    box-sizing:border-box;
+  }
+
+  .site-logo{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+    width:40px;
+    height:40px;
+    border-radius:8px;
+    text-decoration:none;
+    background:transparent;
+    overflow:hidden;
+  }
+
+  .site-logo svg{display:block;width:32px;height:32px;}
+
+  form.search{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex:1;
+  }
+
+  .search input[type="text"]{
+    flex:1;
+    background:transparent;
+    border:0;
+    outline:0;
+    color:var(--text);
+    font-size:15px;
+    padding:8px 12px;
+  }
+
+  .search button{
+    background:linear-gradient(180deg,var(--link), #3a8be6);
+    color:#04263f;
+    border:0;
+    padding:8px 14px;
+    border-radius:999px;
+    font-weight:700;
+    cursor:pointer;
+  }
+
+  .columns-outer{
+    display:flex;
+    justify-content:center;
+    overflow-x:auto;
+    padding-bottom:6px;
+  }
+
+  .columns{
+    margin-top:8px;
+    display:grid;
+    grid-auto-flow:column;
+    grid-auto-columns:max-content;
+    gap:var(--gap);
+    align-items:start;
+    padding:18px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:var(--radius);
+    border:1px solid rgba(255,255,255,0.03);
+    white-space:nowrap;
+  }
+
+  @media (max-width:760px){
+    .search-group{max-width:100%;}
+    .search-container{max-width: calc(50% - 16px); min-width:220px;}
+  }
+  @media (max-width:420px){
+    header{flex-direction:column;align-items:stretch;}
+    .search-wrap{justify-content:stretch;}
+    .search-group{flex-direction:column;gap:12px;}
+    .search-container{max-width:100%;}
+  }
+
+  .col{display:flex;flex-direction:column;gap:8px;min-width:0;}
+
+  .col .col-title{
+    font-size:24px;font-weight:700;color:var(--text);margin:0;padding:6px 8px 0 8px;line-height:1.1;white-space:normal;
+  }
+
+  .col .col-sep{
+    height:1px;
+    background:rgba(255,255,255,0.06);
+    margin:6px 8px;
+    border-radius:2px;
+  }
+
+  .link-list{display:flex;flex-direction:column;gap:8px;padding:0;margin:0;}
+
+  .link-list a{
+    color:var(--link);
+    text-decoration:none;
+    font-size:26px;
+    font-weight:700;
+    line-height:1.1;
+    padding:6px 8px 6px 8px;
+    border-radius:6px;
+    transition: background .14s ease, color .14s ease, transform .08s ease;
+    display:inline-block;
+    white-space:nowrap;
+  }
+
+  .link-list a:hover{
+    background:rgba(127,209,255,0.06);
+    color:#cff7ff;
+    transform:translateX(6px);
+  }
+
+  .bottom-links { margin-top:28px; display:flex; justify-content:center; gap:28px; }
+  .bottom-links a{ color:var(--link); text-decoration:none; font-size:16px; font-weight:700; padding:8px 12px; border-radius:6px; background:transparent; }
+  .bottom-links a:hover{ background:rgba(127,209,255,0.04); color:#cff7ff; }
+
+  a:focus,input:focus,button:focus{outline:3px solid rgba(127,209,255,0.14);outline-offset:3px;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="title">My Links</div>
+      </div>
+
+      <div class="search-wrap" aria-label="Search tools">
+        <div class="search-group" role="group" aria-label="Search engines">
+
+          <!-- DuckDuckGo search — submits to DuckDuckGo in the same window -->
+          <div class="search-container" role="search" aria-label="DuckDuckGo search">
+            <a class="site-logo" href="https://duckduckgo.com" aria-label="Go to DuckDuckGo">
+              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <rect width="64" height="64" rx="8" fill="#FF8C2B"/>
+                <ellipse cx="34" cy="36" rx="18" ry="11" fill="#FFD74A"/>
+                <circle cx="18" cy="28" r="9" fill="#FFD74A"/>
+                <path d="M22 30c4 0 6 2 6 4s-3 4-6 4c-2 0-4-1-5-2" fill="#FF9A2E"/>
+                <circle cx="16" cy="26" r="1.6" fill="#222"/>
+                <path d="M36 34c4 2 6 3 9 1 1-1 0-3-2-4-3-1-6-1-7 3z" fill="#FAD67A"/>
+                <ellipse cx="26" cy="22" rx="3.5" ry="2.2" fill="#fff" opacity="0.28"/>
+              </svg>
+            </a>
+
+            <!-- no target attribute, action points to DuckDuckGo -->
+            <form class="search" method="get" action="https://duckduckgo.com/" role="search" aria-label="DuckDuckGo search form">
+              <input id="ddg-input" type="text" name="q" placeholder="Search DuckDuckGo or type a URL" aria-label="DuckDuckGo search input" />
+              <button type="submit" title="Search DuckDuckGo">Search</button>
+            </form>
+          </div>
+
+          <!-- Google search — no target attribute, action points to Google -->
+          <div class="search-container" role="search" aria-label="Google search">
+            <a class="site-logo" href="https://www.google.com" aria-label="Go to Google">
+              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <path fill="#4285F4" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l6-6C34.9 3 30.9 1 24 1 14.9 1 7.1 5.9 3.4 13.1l7.1 5.5C12.5 13.1 17.6 9.5 24 9.5z"/>
+                <path fill="#34A853" d="M46.5 24.5c0-1.6-.1-2.8-.3-4H24v8.9h12.8c-.5 3-2.9 7.3-8 9.8l6 4.7c5.4-4.9 8.7-12.3 8.7-19.4z"/>
+                <path fill="#FBBC05" d="M10.5 29.6c-.7-2-1.1-4.2-1.1-6.6s.4-4.6 1.1-6.6L3.4 11C1.2 14.7 0 19.2 0 24s1.2 9.3 3.4 13l7.1-7.4z"/>
+                <path fill="#EA4335" d="M24 46c6.9 0 11-2.3 14.7-5.4l-7.1-5.6C30.7 36.9 28 37.9 24 37.9 17.6 37.9 12.5 34.3 10.5 29.6l-7.1 5.5C7.1 42.1 14.9 46 24 46z"/>
+              </svg>
+            </a>
+
+            <form class="search" method="get" action="https://www.google.com/search" role="search" aria-label="Google search form">
+              <input id="search-input" type="text" name="q" placeholder="Search Google or type a URL" aria-label="Google search input" />
+              <button type="submit" title="Search Google">Search</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="columns-outer">
+        <section class="columns" aria-label="Bookmark columns">
+          <div class="col" aria-label="Column 1">
+            <div class="col-title">Productivity</div>
+            <div class="col-sep" role="separator" aria-hidden="true"></div>
+            <nav class="link-list" aria-label="Productivity links">
+              <a href="https://mail.google.com">Gmail</a>
+              <a href="https://calendar.google.com">Calendar</a>
+              <a href="https://tasks.google.com">Tasks</a>
+            </nav>
+          </div>
+
+          <div class="col" aria-label="Column 2">
+            <div class="col-title">News</div>
+            <div class="col-sep" role="separator" aria-hidden="true"></div>
+            <nav class="link-list" aria-label="News links">
+              <a href="https://news.ycombinator.com">Hacker News</a>
+              <a href="https://theverge.com">The Verge</a>
+              <a href="https://wired.com">Wired</a>
+              <a href="https://reuters.com">Reuters</a>
+              <a href="https://bbc.com">BBC</a>
+              <a href="https://nytimes.com">NYTimes</a>
+              <a href="https://arstechnica.com">Ars</a>
+            </nav>
+          </div>
+
+          <div class="col" aria-label="Column 3">
+            <div class="col-title">Developer</div>
+            <div class="col-sep" role="separator" aria-hidden="true"></div>
+            <nav class="link-list" aria-label="Developer links">
+              <a href="https://github.com">GitHub</a>
+              <a href="https://stackoverflow.com">Stack Overflow</a>
+              <a href="https://developer.mozilla.org">MDN</a>
+              <a href="https://codepen.io">CodePen</a>
+              <a href="https://codesandbox.io">CodeSandbox</a>
+              <a href="https://css-tricks.com">CSS-Tricks</a>
+              <a href="https://dev.to">DEV</a>
+              <a href="https://observablehq.com">Observable</a>
+              <a href="https://gitlab.com">GitLab</a>
+              <a href="https://netlify.com">Netlify</a>
+              <a href="https://vercel.com">Vercel</a>
+              <a href="https://heroku.com">Heroku</a>
+            </nav>
+          </div>
+
+          <div class="col" aria-label="Column 4">
+            <div class="col-title">Social</div>
+            <div class="col-sep" role="separator" aria-hidden="true"></div>
+            <nav class="link-list" aria-label="Social links">
+              <a href="https://twitter.com">X</a>
+              <a href="https://reddit.com">Reddit</a>
+              <a href="https://linkedin.com">LinkedIn</a>
+              <a href="https://instagram.com">Instagram</a>
+              <a href="https://mastodon.social">Mastodon</a>
+            </nav>
+          </div>
+
+          <div class="col" aria-label="Column 5">
+            <div class="col-title">Media</div>
+            <div class="col-sep" role="separator" aria-hidden="true"></div>
+            <nav class="link-list" aria-label="Media links">
+              <a href="https://youtube.com">YouTube</a>
+              <a href="https://spotify.com">Spotify</a>
+              <a href="https://netflix.com">Netflix</a>
+              <a href="https://hulu.com">Hulu</a>
+              <a href="https://disneyplus.com">Disney+</a>
+              <a href="https://soundcloud.com">SoundCloud</a>
+              <a href="https://vimeo.com">Vimeo</a>
+              <a href="https://example.com/longmedia">Long Media Link</a>
+              <a href="https://podcasts.example">Podcasts</a>
+            </nav>
+          </div>
+
+          <div class="col" aria-label="Column 6">
+            <div class="col-title">Learning</div>
+            <div class="col-sep" role="separator" aria-hidden="true"></div>
+            <nav class="link-list" aria-label="Learning links">
+              <a href="https://coursera.org">Coursera</a>
+              <a href="https://edx.org">edX</a>
+              <a href="https://khanacademy.org">Khan Academy</a>
+              <a href="https://udemy.com">Udemy</a>
+              <a href="https://pluralsight.com">Pluralsight</a>
+              <a href="https://freecodecamp.org">freeCodeCamp</a>
+              <a href="https://linkedin.com/learning">LinkedIn Learning</a>
+              <a href="https://codecademy.com">Codecademy</a>
+              <a href="https://saylor.org">Saylor</a>
+              <a href="https://classcentral.com">Class Central</a>
+            </nav>
+          </div>
+        </section>
+      </div>
+
+      <div class="bottom-links" role="navigation" aria-label="Page links">
+        <a href="#page2">--Page 2--</a>
+        <a href="#page3">--Page 3--</a>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Keep previous focus behavior for the second input
+    (function(){
+      var googleInput = document.getElementById('search-input');
+      if(googleInput){
+        try { googleInput.focus(); googleInput.select(); }
+        catch(e){ window.addEventListener('load', function(){ googleInput.focus(); googleInput.select(); }, false); }
+      }
+    })();
+  </script>
+</body>
+</html>
