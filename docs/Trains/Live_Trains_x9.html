@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Trains x9</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button id="liveAllBtn">LIVE ALL</button>
+  <button id="togglePlayBtn">Pause All</button>
+  <button id="toggleMuteBtn">Unmute All</button>
+
+  <div class="video-grid" id="videoGrid"></div>
+
+  <!-- Define videoIds globally -->
+  <script>
+    const videoIds = [
+      // Insert Youtube video IDs here:
+      'ZHtA91NVHdw',
+      '772JYypk_R0',
+      '8ft5kUvq27U',
+      'GKjSoXuZ0hU',
+      'NXmFAhX_3vY',
+      'bchdO4OtIEI',
+      'OmWt0efvmNQ',
+      'oAJH5nZgrNQ',
+      'wKLX7B3Q01Q'
+    ];
+  </script>
+  
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="scripts.js"></script>
+  <script>
+    // Call setup functions
+    generateVideoGrid();
+
+    // Hook up buttons
+    document.getElementById('toggleMuteBtn').addEventListener('click', toggleMuteAll);
+    document.getElementById('togglePlayBtn').addEventListener('click', togglePlayAll);
+    document.getElementById('liveAllBtn').addEventListener('click', seekToLiveAll);
+  </script>
+</body>
+</html>
