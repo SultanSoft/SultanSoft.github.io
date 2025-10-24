@@ -1,3 +1,10 @@
+:root{
+  --controls-height: 0px;
+  --outer-gap: 0px;
+  --grid-gap: 2px;
+  --outer-border: 0px;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -5,27 +12,51 @@ body {
   font-family: sans-serif;
   background-color: #000;
   overflow: hidden;
-  height: 100vh;
+  min-height: 100vh;
+}
+
+.grid-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  z-index: 0;
 }
 
 .video-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2px;
-  padding: 0px;
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--grid-gap);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  aspect-ratio: 16 / 9;
+  width: min(100vw, calc(100vh * (16 / 9)));
+  height: auto;
+  background: #000;
+  padding: 0;
+  border: 0;
+  z-index: 0;
 }
 
 .video-container {
-  flex: 1 1 calc(33% - 6px);
-  aspect-ratio: 16 / 9;
-  max-width: 33%;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+  background: #000;
 }
 
-iframe {
+.video-container iframe {
   width: 100%;
   height: 100%;
   border: none;
+  display: block;
+  object-fit: cover;
+  pointer-events: auto;
 }
 
 #liveAllBtn,
@@ -33,35 +64,51 @@ iframe {
 #toggleMuteBtn {
   position: fixed;
   top: 10px;
-  z-index: 999;
+  z-index: 1001;
   padding: 7px 14px;
   font-weight: bold;
-  font-size: 0.8rem;
-  width: 100px;
-  height: 30px;
+  font-size: 0.9rem;
+  width: 110px;
+  height: 34px;
   user-select: none;
   white-space: nowrap;
   cursor: pointer;
   border: 2px solid;
+  background-clip: padding-box;
+  color: #fff;
+  pointer-events: auto;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
-#liveAllBtn {
-  right: 230px;
-  background-color: #8B0000;
-  color: black;
-  border-color: red;
-}
-
-#togglePlayBtn {
-  right: 120px;
-  background-color: #000;
-  color: #006400;
-  border-color: #006400;
+#liveAllBtn:focus,
+#togglePlayBtn:focus,
+#toggleMuteBtn:focus,
+#liveAllBtn:focus-visible,
+#togglePlayBtn:focus-visible,
+#toggleMuteBtn:focus-visible {
+  outline: none;
+  box-shadow: none;
+  -webkit-focus-ring-color: transparent;
 }
 
 #toggleMuteBtn {
   right: 10px;
   background-color: #000;
   color: red;
+  border-color: red;
+}
+
+#togglePlayBtn {
+  right: 125px;
+  background-color: #000;
+  color: #006400;
+  border-color: #006400;
+}
+
+#liveAllBtn {
+  right: 240px;
+  background-color: #8B0000;
+  color: black;
   border-color: red;
 }
