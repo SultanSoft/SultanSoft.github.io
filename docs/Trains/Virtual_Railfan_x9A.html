@@ -1,45 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Virtual RailFan x9A</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Virtual RailFan x9A</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <button id="liveAllBtn">LIVE ALL</button>
-  <button id="togglePlayBtn">Pause All</button>
-  <button id="toggleMuteBtn">Unmute All</button>
+    <button id="liveAllBtn">LIVE ALL</button>
+    <button id="togglePlayBtn">Pause All</button>
+    <button id="toggleMuteBtn">Unmute All</button>
 
-  <div class="grid-wrapper">
-    <div class="video-grid" id="videoGrid"></div>
-  </div>
+    <div class="grid-wrapper">
+        <div class="video-grid" id="videoGrid"></div>
+    </div>
 
-  <!-- Define videoIds globally -->
-  <script>
-    const videoIds = [
-      // Insert Youtube video IDs here:
-      'lUMGsNe-R9Q',
-      'ssuM6NJQ2no',
-      '7xdHH9KMSVk',
-      'nUdVtKcprJU',
-      '_DUQnPjPC_8',
-      'xR3kxBG_v7Y',
-      '-Q9VQJdqIlk',
-      'LhNpn9L5ndM',
-      'On1MRt0NqFs'
-    ];
-  </script>
-  
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="scripts.js"></script>
-  <script>
-    // Call setup functions
-    generateVideoGrid();
+    <script>
+        const videoIds = [
+          // Insert Youtube video IDs here:
+          'lUMGsNe-R9Q',
+          'ssuM6NJQ2no',
+          '7xdHH9KMSVk',
+          'nUdVtKcprJU',
+          '_DUQnPjPC_8',
+          'xR3kxBG_v7Y',
+          '-Q9VQJdqIlk',
+          'LhNpn9L5ndM',
+          'On1MRt0NqFs'
+        ];
+    </script>
 
-    // Hook up buttons
-    document.getElementById('toggleMuteBtn').addEventListener('click', toggleMuteAll);
-    document.getElementById('togglePlayBtn').addEventListener('click', togglePlayAll);
-    document.getElementById('liveAllBtn').addEventListener('click', seekToLiveAll);
-  </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="scripts.js"></script>
+    <script>
+        generateVideoGrid();
+    </script>
 </body>
 </html>
