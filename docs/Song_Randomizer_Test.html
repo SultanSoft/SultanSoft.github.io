@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Song Randomizer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    #songDisplay {
+      margin: 20px;
+      font-size: 4em;
+      font-weight: bold;
+      color: #00bcd4;
+      text-align: center;
+    }
+    #counter {
+      font-size: 1.5em;
+      margin-bottom: 30px;
+      color: #cccccc;
+    }
+    button {
+      padding: 25px 50px;
+      margin: 20px;
+      font-size: 2em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #randomizeBtn {
+      background-color: #4caf50;
+      color: white;
+    }
+    #randomizeBtn:hover {
+      background-color: #45a049;
+    }
+    #skipBtn {
+      background-color: #ff9800;
+      color: black;
+    }
+    #skipBtn:hover {
+      background-color: #e68900;
+    }
+    button:disabled {
+      background-color: #555;
+      color: #999;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎵 Song Randomizer</h1>
+  <div id="songDisplay">Click a button to begin</div>
+  <div id="counter">Songs remaining: 30</div>
+  <button id="randomizeBtn">Randomize</button>
+  <button id="skipBtn">Skip</button>
+
+  <script>
+    const songs = [
+      "All Too Well",
+      "Bad Guy",
+      "Billie Jean",
+      "Blinding Lights",
+      "Bohemian Rhapsody",
+      "drivers license",
+      "Hey Ya!",
+      "Hotel California",
+      "Imagine",
+      "Levitating",
+      "Like a Rolling Stone",
+      "Lose Yourself",
+      "Mr. Brightside",
+      "Old Town Road",
+      "Paint It Black",
+      "Radioactive",
+      "Rolling in the Deep",
+      "Shake It Off",
+      "Shallow",
+      "Shape of You",
+      "Smells Like Teen Spirit",
+      "Someone Like You",
+      "Stairway to Heaven",
+      "Stayin’ Alive",
+      "Take On Me",
+      "Thinking Out Loud",
+      "Toxic",
+      "Uptown Funk",
+      "Viva La Vida",
+      "WAP"
+    ];
+
+    let remainingSongs = [...songs];
+    let shownSongs = [];
+
+    function updateCounter() {
+      document.getElementById("counter").textContent = `Songs remaining: ${remainingSongs.length}`;
+      if (remainingSongs.length === 0) {
+        document.getElementById("randomizeBtn").disabled = true;
+        document.getElementById("skipBtn").disabled = true;
+        document.getElementById("songDisplay").textContent = "🎉 All songs have been shown!";
+      }
+    }
+
+    function getRandomSong(pool) {
+      const index = Math.floor(Math.random() * pool.length);
+      return { song: pool[index], index };
+    }
+
+    document.getElementById("randomizeBtn").addEventListener("click", () => {
+      if (remainingSongs.length === 0) return;
+      const { song, index } = getRandomSong(remainingSongs);
+      document.getElementById("songDisplay").textContent = song;
+      remainingSongs.splice(index, 1);
+      shownSongs.push(song);
+      updateCounter();
+    });
+
+    document.getElementById("skipBtn").addEventListener("click", () => {
+      if (shownSongs.length === songs.length) return; // All songs shown, skip disabled
+      const { song } = getRandomSong(songs);
+      document.getElementById("songDisplay").textContent = song;
+
+      // If the skipped song was already shown, re-add it to the pool
+      if (!remainingSongs.includes(song)) {
+        remainingSongs.push(song);
+        updateCounter();
+      }
+    });
+
+    updateCounter();
+  </script>
+</body>
+</html>
