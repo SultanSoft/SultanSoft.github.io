@@ -65,46 +65,44 @@
 <body>
   <h1>🎵 Song Randomizer</h1>
   <div id="songDisplay">Click a button to begin</div>
-  <div id="counter">Songs remaining: 30</div>
+  <div id="counter"></div>
   <button id="randomizeBtn">Randomize</button>
   <button id="skipBtn">Skip</button>
 
   <script>
     const songs = [
-      "All Too Well",
-      "Bad Guy",
-      "Billie Jean",
-      "Blinding Lights",
-      "Bohemian Rhapsody",
-      "drivers license",
-      "Hey Ya!",
-      "Hotel California",
-      "Imagine",
-      "Levitating",
-      "Like a Rolling Stone",
-      "Lose Yourself",
-      "Mr. Brightside",
-      "Old Town Road",
-      "Paint It Black",
-      "Radioactive",
-      "Rolling in the Deep",
-      "Shake It Off",
-      "Shallow",
-      "Shape of You",
-      "Smells Like Teen Spirit",
-      "Someone Like You",
-      "Stairway to Heaven",
-      "Stayin’ Alive",
-      "Take On Me",
-      "Thinking Out Loud",
-      "Toxic",
-      "Uptown Funk",
-      "Viva La Vida",
-      "WAP"
+      "Clarity",
+      "Time Machine",
+      "Live Another Day (II)",
+      "House Arrest",
+      "Go Funk Yourself",
+      "Night Into Day",
+      "Blues In Your Soul (IV)",
+      "Runner’s High",
+      "Your Lady Doesn’t Love You",
+      "I’m Sorry",
+      "Pyroclastic",
+      "The Void (II)",
+      "Smoke And Mirrors (II)",
+      "River Road",
+      "Get Back",
+      "Catch The Moon",
+      "Carnivore",
+      "On My Own",
+      "BlackJack",
+      "I Want To Know Why",
+      "Break The Chain",
+      "Beaten And Broken",
+      "Sultans Of Sound [D]",
+      "Crazy [D]",
+      "Hummingbird",
+      "Yourself",
+      "Feel My Pain",
+      "Pull The Trigger"
     ];
 
     let remainingSongs = [...songs];
-    let shownSongs = [];
+    let currentSong = null;
 
     function updateCounter() {
       document.getElementById("counter").textContent = `Songs remaining: ${remainingSongs.length}`;
@@ -122,23 +120,32 @@
 
     document.getElementById("randomizeBtn").addEventListener("click", () => {
       if (remainingSongs.length === 0) return;
-      const { song, index } = getRandomSong(remainingSongs);
+
+      // Remove the current song from the pool if it's still there
+      if (currentSong !== null) {
+        const index = remainingSongs.indexOf(currentSong);
+        if (index !== -1) {
+          remainingSongs.splice(index, 1);
+        }
+      }
+
+      if (remainingSongs.length === 0) {
+        updateCounter();
+        return;
+      }
+
+      const { song } = getRandomSong(remainingSongs);
+      currentSong = song;
       document.getElementById("songDisplay").textContent = song;
-      remainingSongs.splice(index, 1);
-      shownSongs.push(song);
       updateCounter();
     });
 
     document.getElementById("skipBtn").addEventListener("click", () => {
-      if (shownSongs.length === songs.length) return; // All songs shown, skip disabled
-      const { song } = getRandomSong(songs);
-      document.getElementById("songDisplay").textContent = song;
+      if (remainingSongs.length === 0) return;
 
-      // If the skipped song was already shown, re-add it to the pool
-      if (!remainingSongs.includes(song)) {
-        remainingSongs.push(song);
-        updateCounter();
-      }
+      const { song } = getRandomSong(remainingSongs);
+      currentSong = song;
+      document.getElementById("songDisplay").textContent = song;
     });
 
     updateCounter();
