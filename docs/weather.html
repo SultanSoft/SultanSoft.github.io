@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e1e2f;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    #weather-widget {
+      background-color: #2c2c3c;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      max-width: 1000px;
+      width: 100%;
+      color: #e0e0e0;
+    }
+
+    .current {
+      font-size: 1.1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .current-icon {
+      font-size: 1.8em;
+    }
+
+    .forecast {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .forecast-day {
+      flex: 1;
+      min-width: 120px;
+      background-color: #3a3a4a;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .forecast-day strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1em;
+      color: #ffffff;
+    }
+
+    .forecast-day span {
+      display: block;
+      font-size: 0.95em;
+      color: #cccccc;
+    }
+
+    .icon {
+      font-size: 1.8em;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="weather-widget">
+    <div class="current">
+      <div class="current-icon" id="current-icon">--</div>
+      <div>Temp: <span id="temp">--</span>°F</div>
+      <div>Wind: <span id="wind">--</span> mph</div>
+      <div>Pressure: <span id="pressure">--</span> inHg</div>
+      <div>Humidity: <span id="humidity">--</span>%</div>
+    </div>
+    <div class="forecast" id="forecast"></div>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      location.reload();
+    }, 3600000); // Auto-refresh every hour
+
+    const latitude = 38.4018;
+    const longitude = -122.7290;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max&hourly=pressure_msl,relative_humidity_2m&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto`;
+
+    const weatherIcons = {
+      0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️",
+      45: "🌫️", 48: "🌫️",
+      51: "🌦️", 53: "🌦️", 55: "🌧️",
+      56: "🌧️", 57: "🌧️",
+      61: "🌧️", 63: "🌧️", 65: "🌧️",
+      66: "🌧️", 67: "🌧️",
+      71: "🌨️", 73: "🌨️", 75: "❄️",
+      77: "❄️",
+      80: "🌧️", 81: "🌧️", 82: "🌧️",
+      85: "🌨️", 86: "🌨️",
+      95: "⛈️", 96: "⛈️", 99: "⛈️"
+    };
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const weather = data.current_weather;
+        document.getElementById('temp').textContent = weather.temperature;
+        document.getElementById('wind').textContent = weather.windspeed;
+        document.getElementById('current-icon').textContent = weatherIcons[weather.weathercode] || "☁️";
+
+        const now = new Date();
+        const currentHour = now.toISOString().slice(0, 13);
+        const index = data.hourly.time.findIndex(t => t.startsWith(currentHour));
+        if (index !== -1) {
+          const hPa = data.hourly.pressure_msl[index];
+          const inHg = (hPa / 33.8639).toFixed(2);
+          document.getElementById('pressure').textContent = inHg;
+
+          const humidity = data.hourly.relative_humidity_2m[index];
+          document.getElementById('humidity').textContent = humidity;
+        }
+
+        const forecastContainer = document.getElementById('forecast');
+        const days = data.daily.time;
+        const highs = data.daily.temperature_2m_max;
+        const lows = data.daily.temperature_2m_min;
+        const codes = data.daily.weathercode;
+        const rainChances = data.daily.precipitation_probability_max;
+
+        const today = new Date().toISOString().split("T")[0];
+        let count = 0;
+
+        for (let i = 0; i < days.length && count < 5; i++) {
+          if (days[i] >= today) {
+            const code = codes[i];
+            const icon = weatherIcons[code] || "☁️";
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'forecast-day';
+            dayDiv.innerHTML = `
+              <strong>${new Date(days[i]).toLocaleDateString('en-US', { weekday: 'short' })}</strong>
+              <div class="icon">${icon}</div>
+              <span>High: ${highs[i]}°F</span>
+              <span>Low: ${lows[i]}°F</span>
+              <span>Rain: ${rainChances[i]}%</span>
+            `;
+            forecastContainer.appendChild(dayDiv);
+            count++;
+          }
+        }
+      })
+      .catch(err => {
+        document.getElementById('weather-widget').innerHTML = `<p>Unable to fetch weather data.</p>`;
+        console.error('Fetch error:', err);
+      });
+  </script>
+</body>
+</html>
