@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Marked Preview with GitHub Dark Colors</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="github-markdown-dark.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="preview" class="markdown-body markdown-card"></div>
+    </div>
+
+    <script>
+      const initialMarkdown =
+
+// Type your Markdown text below this line within the backticks (`)
+`
+# 🔥 UFW Command Cheat Sheet
+
+UFW (Uncomplicated Firewall) is a simple way to manage firewall rules on Linux.
+
+## 📦 Basic Commands
+\`\`\`
+sudo ufw enable                # Enable UFW
+sudo ufw disable               # Disable UFW
+sudo ufw status                # Check UFW status
+sudo ufw status numbered       # Show rules with numbers
+sudo ufw reload                # Reload UFW
+sudo ufw reset                 # Reset all rules
+\`\`\`
+
+## 🚪 Allow / Deny Rules
+\`\`\`
+sudo ufw allow 22                                  # Allow SSH
+sudo ufw allow 80/tcp                              # Allow HTTP (TCP)
+sudo ufw allow from 192.168.1.100                  # Allow from specific IP
+sudo ufw allow from 192.168.1.100 to any port 22   # Allow IP to SSH
+sudo ufw deny 23                                   # Deny Telnet
+sudo ufw delete allow 22                           # Delete rule by match
+sudo ufw delete 3                                  # Delete rule by number
+\`\`\`
+
+## 🔐 Advanced Rules
+\`\`\`
+sudo ufw allow in on eth0 to any port 443        # Allow HTTPS on eth0
+sudo ufw limit ssh                               # Limit SSH attempts
+sudo ufw allow from 192.168.0.0/24               # Allow subnet
+sudo ufw default deny incoming                   # Default deny incoming
+sudo ufw default allow outgoing                  # Default allow outgoing
+\`\`\`
+
+## 🧪 Logging
+\`\`\`
+sudo ufw logging on              # Enable logging
+sudo ufw logging off             # Disable logging
+sudo ufw logging high            # Set logging level
+\`\`\`
+
+## 🧹 Cleanup & Reset
+\`\`\`
+sudo ufw reset                   # Reset all UFW rules
+\`\`\`
+
+`;
+// End of Markdown text
+
+      const preview = document.getElementById("preview");
+
+      function render(markdown) {
+        preview.innerHTML = marked.parse(markdown);
+      }
+
+      render(initialMarkdown);
+    </script>
+    
+  </body>
+</html>
