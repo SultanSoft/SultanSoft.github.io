@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Song Board — generated from array</title>
+    <style>
+        :root{
+            --bg:#070808;
+            --panel:#121417;
+            --cell-bg:#1b1f22;
+            --cell-bg-hover:#23282b;
+            --card-gap:12px;
+            --cols:4;
+            --cell-padding-x:28px;
+            --label-color:#4a9b58;
+            --cell-border: rgba(255,255,255,0.035);
+            --cell-shadow: 0 6px 18px rgba(0,0,0,0.6);
+        }
+
+        html,body{
+            height:100%;
+            margin:0;
+            background:linear-gradient(180deg,var(--bg), #0b0d10);
+            color:var(--label-color);
+            font-family:Inter, system-ui, -apple-system, Roboto, "Helvetica Neue", Arial;
+        }
+
+        .board{
+            box-sizing:border-box;
+            min-height:100vh;
+            padding:18px;
+            display:grid;
+            grid-template-rows:1fr;
+            gap:12px;
+            align-items:stretch;
+            justify-items:stretch;
+            background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+        }
+
+        .songs{
+            display:grid;
+            gap:var(--card-gap);
+            grid-template-columns:repeat(var(--cols),1fr);
+            align-content:start;
+            align-items:stretch;
+            width:100%;
+            height:100%;
+        }
+
+        .song{
+            background: linear-gradient(180deg, var(--cell-bg), rgba(0,0,0,0.02));
+            border-radius:10px;
+            padding:12px 16px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            overflow:hidden;
+            border:1px solid var(--cell-border);
+            min-height:84px;
+            position:relative;
+            box-shadow: var(--cell-shadow);
+            transition: transform 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+        }
+
+        .song:hover{
+            background: linear-gradient(180deg, var(--cell-bg-hover), rgba(0,0,0,0.03));
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(0,0,0,0.65);
+        }
+
+        .label{
+            display:inline-block;
+            white-space:nowrap;
+            overflow:visible;
+            text-align:center;
+            font-weight:600;
+            color:var(--label-color);
+            line-height:1;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+
+        .song.empty::after{
+            content: "—";
+            color: rgba(74,155,88,0.12);
+            font-weight:600;
+            font-size:20px;
+            pointer-events:none;
+        }
+
+        @media (max-width:1600px){:root{--cols:4}}
+        @media (max-width:1300px){:root{--cols:3}}
+        @media (max-width:900px){:root{--cols:2}}
+    </style>
+</head>
+<body>
+    <div class="board">
+        <div class="songs" id="songs"></div>
+    </div>
+
+    <script>
+        // Variable for maximum of 32 songs.
+        const songs = [
+            "Clarity",
+            "Time Machine",
+            "Live Another Day (II)",
+            "House Arrest",
+            "Go Funk Yourself",
+            "Night Into Day",
+            "Blues In Your Soul (IV)",
+            "Runner’s High",
+            "Your Lady Doesn’t Love You",
+            "I’m Sorry",
+            "Pyroclastic",
+            "The Void (II)",
+            "Smoke And Mirrors (II)",
+            "River Road",
+            "Get Back",
+            "Catch The Moon",
+            "Carnivore",
+            "On My Own",
+            "BlackJack",
+            "I Want To Know Why",
+            "Break The Chain",
+            "Beaten And Broken",
+            "Sultans Of Sound [D]",
+            "Crazy [D]",
+            "Hummingbird",
+            "Yourself",
+            "Feel My Pain",
+            "Pull The Trigger"
+        ];
+
+        const TOTAL_SLOTS = 32;
+
+        function buildGrid(){
+            const container = document.getElementById('songs');
+            container.innerHTML = '';
+            for(let i = 0; i < TOTAL_SLOTS; i++){
+                const title = songs[i] || '';
+                const cell = document.createElement('div');
+                cell.className = 'song' + (title.trim() ? '' : ' empty');
+                const span = document.createElement('span');
+                span.className = 'label';
+                span.textContent = title;
+                cell.appendChild(span);
+                container.appendChild(cell);
+            }
+        }
+
+        (function(){
+            const MIN_FONT = 12;
+            const MAX_FONT = 96;
+            const EPS = 0.5;
+            const TOTAL_PADDING = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--cell-padding-x')) || 28;
+
+            function measureWidth(label, fontPx){
+                label.style.fontSize = fontPx + 'px';
+                label.style.transform = 'none';
+                return label.getBoundingClientRect().width;
+            }
+
+            function fitLabel(label){
+                if(!label.textContent || !label.textContent.trim()) return;
+                const cell = label.closest('.song');
+                if(!cell) return;
+                const available = Math.max(40, cell.clientWidth - TOTAL_PADDING);
+                let lo = MIN_FONT, hi = MAX_FONT, mid;
+                if(measureWidth(label, hi) <= available){
+                    label.style.fontSize = hi + 'px';
+                    label.style.transform = 'none';
+                    return;
+                }
+                while(hi - lo > EPS){
+                    mid = (hi + lo) / 2;
+                    if(measureWidth(label, mid) > available) hi = mid;
+                    else lo = mid;
+                }
+                label.style.fontSize = Math.max(MIN_FONT, lo) + 'px';
+                label.style.transform = 'none';
+            }
+
+            let raf = null;
+            function fitAll(){
+                if(raf) cancelAnimationFrame(raf);
+                raf = requestAnimationFrame(() => {
+                    document.querySelectorAll('.label').forEach(label => {
+                        label.style.display = 'inline-block';
+                        fitLabel(label);
+                        const cell = label.closest('.song');
+                        if(cell){
+                            if(label.textContent && label.textContent.trim()){
+                                cell.classList.remove('empty');
+                            } else {
+                                cell.classList.add('empty');
+                                label.style.fontSize = '';
+                            }
+                        }
+                    });
+                    raf = null;
+                });
+            }
+
+            window.populateSongSlots = function(arr){
+                for(let i=0;i<TOTAL_SLOTS;i++){
+                    songs[i] = arr[i] ? String(arr[i]) : '';
+                }
+                buildGrid();
+                fitAll();
+            };
+
+            window.addEventListener('load', () => {
+                buildGrid();
+                setTimeout(fitAll, 60);
+            });
+
+            let resizeTimer = null;
+            window.addEventListener('resize', () => {
+                if(resizeTimer) clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(fitAll, 80);
+            });
+
+            document.getElementById('songs').addEventListener('dblclick', (e) => {
+                const label = e.target.closest('.label');
+                if(!label) return;
+                const old = label.textContent;
+                const newText = prompt('Edit song name (leave empty to clear):', old);
+                if(newText === null) return;
+                label.textContent = newText.trim();
+                const cells = Array.from(document.querySelectorAll('.songs .label'));
+                const idx = cells.indexOf(label);
+                if(idx >= 0) songs[idx] = label.textContent;
+                fitAll();
+            });
+
+        })();
+    </script>
+</body>
+</html>
