@@ -11,7 +11,7 @@
             --cell-bg:#1b1f22;
             --cell-bg-hover:#23282b;
             --card-gap:12px;
-            --cols:4;
+            --cols:3; /* fixed to 3 columns */
             --cell-padding-x:28px;
             --label-color:#4a9b58;
             --cell-border: rgba(255,255,255,0.035);
@@ -21,6 +21,7 @@
         html,body{
             height:100%;
             margin:0;
+            overflow:hidden; /* hides scrollbars */
             background:linear-gradient(180deg,var(--bg), #0b0d10);
             color:var(--label-color);
             font-family:Inter, system-ui, -apple-system, Roboto, "Helvetica Neue", Arial;
@@ -28,7 +29,7 @@
 
         .board{
             box-sizing:border-box;
-            min-height:100vh;
+            height:100%; /* fill viewport */
             padding:18px;
             display:grid;
             grid-template-rows:1fr;
@@ -88,10 +89,6 @@
             font-size:20px;
             pointer-events:none;
         }
-
-        @media (max-width:1600px){:root{--cols:4}}
-        @media (max-width:1300px){:root{--cols:3}}
-        @media (max-width:900px){:root{--cols:2}}
     </style>
 </head>
 <body>
@@ -100,7 +97,6 @@
     </div>
 
     <script>
-        // Variable for maximum of 32 songs.
         const songs = [
             "Clarity",
             "Time Machine",
@@ -114,7 +110,7 @@
             "I’m Sorry",
             "Pyroclastic",
             "The Void (II)",
-            "Smoke And Mirrors (II)",
+            "Smoke & Mirrors (II)",
             "River Road",
             "Get Back",
             "Catch The Moon",
@@ -123,16 +119,12 @@
             "BlackJack",
             "I Want To Know Why",
             "Break The Chain",
-            "Beaten And Broken",
+            "Beaten & Broken",
             "Sultans Of Sound [D]",
-            "Crazy [D]",
-            "Hummingbird",
-            "Yourself",
-            "Feel My Pain",
-            "Pull The Trigger"
+            "Crazy [D]"
         ];
 
-        const TOTAL_SLOTS = 32;
+        const TOTAL_SLOTS = 24; // reduced to 24
 
         function buildGrid(){
             const container = document.getElementById('songs');
