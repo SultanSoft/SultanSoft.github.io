@@ -5,15 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Band Practice Setlist</title>
     <style>
+        /* --- CSS VARIABLES FOR THEME --- */
+        :root {
+            --song-label-color: #4a9b58; /* Green Label */
+            --page-bg: #222;
+            --cell-bg-top: #1a1a1a;
+            --cell-bg-bottom: #000000;
+            --cell-border: #444;
+            --shadow-color: #000;
+        }
+
         /* --- BASE STYLES --- */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            background-color: #222; /* Dark Grey Page Background */
-            font-family: Inter, system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background-color: var(--page-bg); 
+            /* Improved font stack */
+            font-family: 'Inter', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
             overflow: hidden;
-            cursor: pointer;
+            cursor: pointer; /* Keep for fullscreen toggle */
         }
 
         /* --- THE GRID --- */
@@ -30,10 +41,10 @@
 
         /* --- THE CELLS --- */
         .song-cell {
-            border: 1px solid #444; 
-            background-color: #000000;
+            border: 1px solid var(--cell-border); 
+            background-color: var(--cell-bg-bottom);
             /* Gradient for subtle depth */
-            background-image: linear-gradient(to bottom, #1a1a1a, #000000); 
+            background-image: linear-gradient(to bottom, var(--cell-bg-top), var(--cell-bg-bottom)); 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -46,17 +57,17 @@
 
         /* --- THE TEXT --- */
         .song-name {
-            color: #4a9b58; /* NEW COLOR: Matching the requested label color */
+            color: var(--song-label-color);
             font-weight: 900;
             text-transform: none;
             white-space: nowrap;
-            font-size: 11vh; 
+            font-size: 11vh; /* Initial size, will be adjusted by JS */
             line-height: 1;
             outline: none;
-            font-family: Inter, system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: inherit; /* Inherit the main improved font stack */
             
-            /* Hard shadow for pop */
-            text-shadow: 3px 3px 0px #000, -1px -1px 0 #000;
+            /* Cleaner shadow for pop */
+            text-shadow: 2px 2px 0px var(--shadow-color), 4px 4px 0px #111;
             letter-spacing: 1px;
         }
     </style>
@@ -122,6 +133,25 @@ Crazy [D]
         `;
         // ======================================================
 
+        /**
+         * Debounce function to limit how often a function is run.
+         * Crucial for window.onresize performance.
+         */
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        /**
+         * Populates the grid cells and dynamically resizes the text.
+         */
         function populateAndResize() {
             const songs = setlistData.trim().split('\n').filter(line => line.trim() !== '');
             const cells = document.querySelectorAll('.song-cell');
@@ -135,7 +165,7 @@ Crazy [D]
                     textSpan.innerText = "";
                 }
 
-                // Resize Logic
+                // Resize Logic: Start high and shrink until it fits
                 let fontSize = 11; 
                 textSpan.style.fontSize = fontSize + 'vh';
                 
@@ -146,19 +176,26 @@ Crazy [D]
             });
         }
 
-        // CLICK TO TOGGLE FULLSCREEN
+        // CLICK TO TOGGLE FULLSCREEN (Improved Cross-Browser)
         document.body.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                // Request fullscreen using vendor prefixes
+                const docEl = document.documentElement;
+                (docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen).call(docEl);
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen(); 
+                // Exit fullscreen using vendor prefixes
+                const doc = document;
+                if (doc.exitFullscreen || doc.webkitExitFullscreen || doc.msExitFullscreen) {
+                    (doc.exitFullscreen || doc.webkitExitFullscreen || doc.msExitFullscreen).call(doc);
                 }
             }
         });
 
+        // Use the debounced function for window resize events
+        const debouncedPopulateAndResize = debounce(populateAndResize, 100);
+
         window.onload = populateAndResize;
-        window.onresize = populateAndResize;
+        window.onresize = debouncedPopulateAndResize;
     </script>
 </body>
 </html>
