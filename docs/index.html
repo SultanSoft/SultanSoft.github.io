@@ -1,138 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Links</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      font-weight: bold;
-      margin: 2em;
-      background-color: #000;
-      color: #fff;
-    }
-    .search-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 2em;
-      gap: 1em;
-    }
-    .search-container img {
-      height: 40px;
-    }
-    .search-container form {
-      display: flex;
-      align-items: center;
-    }
-    .search-container input[type="text"] {
-      width: 300px;
-      padding: 0.5em;
-      font-size: 0.9em;
-      border-radius: 4px;
-      border: none;
-      font-weight: bold;
-    }
-    .search-container input[type="submit"] {
-      padding: 0.5em 1em;
-      font-size: 0.9em;
-      margin-left: 0.5em;
-      border-radius: 4px;
-      border: none;
-      background-color: #1e90ff;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .columns {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1em;
-    }
-    .markdown-body {
-      background-color: #1a1a1a;
-      color: inherit;
-      font-weight: bold;
-      padding: 1em;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
-    }
-    .markdown-body h1 {
-      margin-top: 0;
-      margin-bottom: 0.15em;
-      font-size: 1.8em;
-    }
-    .markdown-body p {
-      margin: 0;
-      line-height: 1;
-    }
-    .markdown-body a {
-      color: #1e90ff;
-      font-size: 1.44em;
-      text-decoration: none;
-      display: block;
-      margin: 0;
-      padding: 0;
-      line-height: 1;
-      font-weight: bold;
-    }
-    .markdown-body a:hover {
-      text-decoration: underline;
-    }
-    .bottom-nav a {
-      color: #1e90ff;
-      font-size: 1.44em;
-      text-decoration: none;
-      margin: 0 0.5em;
-      font-weight: bold;
-    }
-    .bottom-nav a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Links</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            margin: 2em;
+            background-color: #000;
+            color: #fff;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2em;
+            gap: 1em;
+        }
+        .search-container img {
+            height: 40px;
+        }
+        .search-container form {
+            display: flex;
+            align-items: center;
+        }
+        .search-container input[type="text"] {
+            width: 300px;
+            padding: 0.5em;
+            font-size: 0.9em;
+            border-radius: 4px;
+            border: none;
+            font-weight: bold;
+        }
+        .search-container input[type="submit"] {
+            padding: 0.5em 1em;
+            font-size: 0.9em;
+            margin-left: 0.5em;
+            border-radius: 4px;
+            border: none;
+            background-color: #1e90ff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(5, auto); /* <-- UPDATED: Changed from 1fr to auto */
+            gap: 1em;
+        }
+        .markdown-body {
+            background-color: #1a1a1a;
+            color: inherit;
+            font-weight: bold;
+            padding: 1em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .markdown-body h1 {
+            margin-top: 0;
+            margin-bottom: 0.15em;
+            font-size: 1.8em;
+        }
+        .markdown-body h2 {
+            margin-top: 1.25em; 
+            margin-bottom: 0.15em;
+            font-size: 1.6em; 
+        }
+        .markdown-body p {
+            margin: 0;
+            line-height: 1.5; 
+            font-size: 1.44em; 
+            font-weight: bold; 
+        }
+        .markdown-body a {
+            color: #1e90ff;
+            text-decoration: none;
+            display: inline-block; 
+            margin: 0;
+            padding: 0;
+            line-height: 1; 
+        }
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+        .bottom-nav a {
+            color: #1e90ff;
+            font-size: 1.44em;
+            text-decoration: none;
+            margin: 0 0.5em;
+            font-weight: bold;
+        }
+        .bottom-nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <div class="search-container">
-    <a href="https://www.google.com">
-      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google Logo">
-    </a>
-    <form action="https://www.google.com/search" method="get">
-      <input type="text" name="q" id="google-search" placeholder="Search Google...">
-      <input type="submit" value="Search">
-    </form>
-  </div>
+    <div class="search-container">
+        <a href="https://www.google.com">
+            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google Logo">
+        </a>
+        <form action="https://www.google.com/search" method="get">
+            <input type="text" name="q" id="google-search" placeholder="Search Google...">
+            <input type="submit" value="Search">
+        </form>
+    </div>
 
-  <div class="columns">
-    <div class="markdown-body" id="col1"></div>
-    <div class="markdown-body" id="col2"></div>
-    <div class="markdown-body" id="col3"></div>
-    <div class="markdown-body" id="col4"></div>
-    <div class="markdown-body" id="col5"></div>
-  </div>
+    <div class="columns">
+        <div class="markdown-body" id="col1"></div>
+        <div class="markdown-body" id="col2"></div>
+        <div class="markdown-body" id="col3"></div>
+        <div class="markdown-body" id="col4"></div>
+        <div class="markdown-body" id="col5"></div>
+    </div>
 
-  <script>
-    window.onload = function() {
-      document.getElementById('google-search').focus();
-    };
+    <script>
+        window.onload = function() {
+            document.getElementById('google-search').focus();
+        };
 
-    const markdownColumns = [
-      `
-## Live Train Cams
+        const markdownColumns = [
+`
+## Aggregated Train Cams
 [Live Trains](Trains/Live_Trains_x9.html)  
 [Virtual Railfan A](Trains/Virtual_Railfan_x9A.html)  
 [Virtual Railfan B](Trains/Virtual_Railfan_x9B.html)  
-[]()  
-[]()  
 
-## Train Maps
-[Intercity Rail Map](https://asm.transitdocs.com/)  
-[Amtrak Status Maps](https://dixielandsoftware.net/Amtrak/status/StatusMaps/)  
-[]()  
-[]()  
-      `,
-      `
 ## Other Train Cams
 [Steel Highway Railcams](https://www.youtube.com/@SteelHighwayRailcams/streams)  
 [RRphotographer](https://www.youtube.com/@RRphotographer661/streams)  
@@ -143,44 +139,48 @@
 [Tavern League Of Railfans](https://www.youtube.com/@TavernLeagueOfRailfans/streams)  
 [MOKAN Railcams](https://www.youtube.com/@MOKANRailcams/streams)  
 [Railside Live](https://www.youtube.com/@railsidelive/streams)  
-[]()  
-[]()  
+[Hotel Roanoke West](https://www.youtube.com/watch?v=cV3kP5FSUDk) | [East](https://www.youtube.com/watch?v=Xm3pqQsStPY)  
+[VRF Roanoke (Static)](https://www.youtube.com/watch?v=7IEVmX3Ykf0) | [PTZ](https://www.youtube.com/watch?v=UhP0rMfgjJ8)  
+`,
+`
+## Train Maps
+[Intercity Rail Map](https://asm.transitdocs.com/)  
+[Amtrak Status Maps](https://dixielandsoftware.net/Amtrak/status/StatusMaps/)  
 
 ## Volcano Cams
 [USGS Kilauea Cams](https://www.youtube.com/@usgs/streams)  
 [Volcoholics - 8 Volcano Cam](https://www.youtube.com/watch?v=S5M-qDFyYxs)  
-[]()  
-[]()  
-      `,
-      `
+
+## Other Live Cams
+[Kansas City Cam](https://www.youtube.com/watch?v=Ezm7jMHsx5A)  
+[Cincinnati Cam](https://www.youtube.com/watch?v=Cu3NeiM2vXs)  
+[Houston Cam](https://www.youtube.com/watch?v=wUQc3RoLAPs)  
+`,
+`
 ## Test Sites
 [Dashboard](Dashboard)  
 [Links Test](Links)  
 [Weather](Weather)  
 
----
-
-[Song Board (Copilot)](Song_Board)  
-[Song Board (Copilot) Page 2](Song_Board/page2.html)  
+## Music
+[Song Board (Copilot)](Song_Board) | [Page 2](Song_Board/page2.html)  
 [Song Board (Gemini)](Song_Board/Gemini_Song_Board.html)  
 [Song Randomizer](Song_Randomizer)  
-[]()  
-[]()  
 
 ## Cheat Sheets
 [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)  
 [Markdown Syntax Guide](https://www.markdownguide.org/basic-syntax/)  
 [UFW Cheat Sheet](Cheat_Sheets/UFW.html)  
-[]()  
-[]()  
-      `,
-      `
+`,
+`
 ## Tools & Utilities
 [Ookla Speed Test](https://www.speedtest.net/)  
 [Google Speed Test](https://www.google.com/search?q=speed+test)  
 [Cloudflare Speed Test](https://speed.cloudflare.com/)  
 [DownDetector](https://downdetector.com/)  
 [Clocktab](https://www.clocktab.com/#lcd-custom/eyJzdWJhcHBfaWQiOiJjbG9jayIsInByZXNldF9pZCI6ImxjZC1jdXN0b20iLCJwcmVzZXRfdmFsdWVzIjp7ImNsb2NrX2JhY2tncm91bmRfaW1hZ2UiOiIiLCJjbG9ja19iYWNrZ3JvdW5kX2NvbG9yIjoiIzAwMDAwMCIsImNsb2NrX2ZvbnQiOiJMQ0QiLCJjbG9ja19zaGFkb3ciOiJub25lIiwiY2xvY2tfY29sb3IiOiIjZmYwMDAwIiwiY2xvY2tfc2l6ZSI6IjgwMCIsImNsb2NrX3Bvc2l0aW9uIjoiY2VudGVyIn19)  
+
+## Chrome Extensions
 [uBlock Origin Lite](https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh?hl=en)  
 [Sponsorblock for Youtube](https://chromewebstore.google.com/detail/sponsorblock-for-youtube/mnjggcdmjocbbbhaepdhchncahnbgone?hl=en)  
 [Improve YouTube](https://chromewebstore.google.com/detail/improve-youtube-%F0%9F%8E%A7-for-yo/bnomihfieiccainjcjblhegjgglakjdd)  
@@ -191,12 +191,9 @@
 [The Camelizer](https://chromewebstore.google.com/detail/the-camelizer/ghnomdcacenbmilgjigehppbamfndblo)  
 [Video DownloadHelper](https://chromewebstore.google.com/detail/video-downloadhelper/lmjnegcaeklhafolokijcfjliaokphfk)  
 [SteamDB Extension](https://chromewebstore.google.com/detail/steamdb/kdbmhfkmnlmbkgbabkdealhhbfhlmmon?hl=en)  
-[Bluetooth Keyboard & Mouse (Android)](https://play.google.com/store/apps/details?id=io.appground.blek&hl=en_IN&gl=US)  
-[]()  
-[]()  
-      `,
-      `
-## Other 
+`,
+`
+## Other
 [Linux Mint Blog](https://blog.linuxmint.com/)  
 [OnTheGo Map](https://onthegomap.com/)  
 [Google Gemini](https://gemini.google.com/app)  
@@ -205,19 +202,18 @@
 [Favicon-Extractor](https://webutility.io/favicon-extractor)  
 [Turtlecute Adblock Test](https://adblock.turtlecute.org/)  
 [Adblock-Tester](https://adblock-tester.com/)  
-[]()  
-[]()  
-      `
-    ];
+[Bluetooth Keyboard & Mouse](https://play.google.com/store/apps/details?id=io.appground.blek&hl=en_IN&gl=US)  
+`
+        ];
 
-    markdownColumns.forEach((md, i) => {
-      document.getElementById(`col${i + 1}`).innerHTML = marked.parse(md);
-    });
-  </script>
+        markdownColumns.forEach((md, i) => {
+            document.getElementById(`col${i + 1}`).innerHTML = marked.parse(md);
+        });
+    </script>
 
-  <div class="bottom-nav" style="text-align: center; margin-top: 2em;">
-    <a href="page2.html">-- Page 2 --</a>
-    <a href="page3.html">-- Page 3 --</a>
-  </div>
+    <div class="bottom-nav" style="text-align: center; margin-top: 2em;">
+        <a href="page2.html">-- Page 2 --</a>
+        <a href="page3.html">-- Page 3 --</a>
+    </div>
 </body>
 </html>
