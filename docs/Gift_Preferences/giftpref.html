@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gift Preferences</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="github-markdown-dark.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="preview" class="markdown-body markdown-card"></div>
+    </div>
+
+    <script>
+      const initialMarkdown =
+
+// Type your Markdown text below this line within the backticks (`)
+`
+# My Gift Preferences
+
+## Please read:
+
+I normally do not want holiday gifts as I am morally opposed to holiday gift giving.
+I believe it is better to give someone a gift for no reason other than you care about that person.
+However, if you still feel compelled to get me a holiday gift, please use one of the suggestions linked below:
+
+|[Home Depot Gift Card][HomeDepotLink]|[Costco Shop Gift Card][CostcoLink]|[Amazon Gift Card][AmazonLink]|
+|---|---|---|
+|[![HomeDepot Card](images/HomeDepotCard.png)][HomeDepotLink]|[![HomeDepot Card](images/CostcoCard.png)][CostcoLink]|[![HomeDepot Card](images/AmazonCard.png)][AmazonLink]|
+
+
+[HomeDepotLink]: <https://www.homedepot.com/gift-cards/p/Home-Depot-Crate-Gift-Card/53L1QLAXWKVF06WJ8DLHBYT6S8/F0YP7ZA42VJYJF3N2F4YLJS0PH?price=15> "Home Depot Gift Card"
+[CostcoLink]: <https://www.costco.com/p/-/costco-shop-card/10024438?langId=-1> "Costco Shop Gift Card"
+[AmazonLink]: <https://www.amazon.com/Amazon-Physical-Gift-Card-Amazon-Smile-Mini-Envelope/dp/B0DMNJ1LN7?_encoding=UTF8&gpo=10> "Amazon Gift Card"
+
+`;
+// End of Markdown text
+
+      const preview = document.getElementById("preview");
+
+      function render(markdown) {
+        preview.innerHTML = marked.parse(markdown);
+      }
+
+      render(initialMarkdown);
+    </script>
+    
+  </body>
+</html>
+
+
+<!-- ### [Home Depot Gift Card:][HomeDepotLink]
+[![HomeDepot Card](images/HomeDepotCard.png)][HomeDepotLink]
+
+### [Costco Shop Gift Card:][CostcoLink]
+[![HomeDepot Card](images/CostcoCard.png)][CostcoLink]
+
+### [Amazon Gift Card:][AmazonLink]
+[![HomeDepot Card](images/AmazonCard.png)][AmazonLink] -->
