@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Marked Preview with GitHub Dark Colors</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="github-markdown-dark.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="preview" class="markdown-body markdown-card"></div>
+    </div>
+
+    <script>
+      const initialMarkdown =
+
+// Type your Markdown text below this line within the backticks (`)
+`
+# Bash Aliases
+
+\`\`\`
+alias c='clear'
+alias cc='cd ~ ; clear'
+alias ls='ls --color=auto --group-directories-first'
+alias ll='ls -lahvF'
+alias l='ls -lhvF'
+alias h='history'
+alias f='sudo ufw status numbered verbose'
+alias m='clear ; echo "" ; neofetch'
+alias up='sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt clean'
+#alias up='sudo nala full-upgrade -y && sudo nala autoremove -y && sudo nala clean'
+
+\`\`\`
+
+`;
+// End of Markdown text
+
+      const preview = document.getElementById("preview");
+
+      function render(markdown) {
+        preview.innerHTML = marked.parse(markdown);
+      }
+
+      render(initialMarkdown);
+    </script>
+    
+  </body>
+</html>
