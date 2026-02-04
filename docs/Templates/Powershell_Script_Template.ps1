@@ -29,12 +29,6 @@ param(
     # Parameter help description
     [Parameter()]
     [String]$Parameter2
-
-<#
-    The script parameters section may not be necessary if you don't have any.  However, I know you have
-    some in your script so you can put them here. NOTE: This section should NOT be placed within a function.
-    [REMOVE THESE LINES]
-#>
 )
 
 
@@ -49,7 +43,6 @@ $StartTime = Get-Date
 $ScriptName = $MyInvocation.MyCommand.Name
 
 # Transcript file location.
-#$TranscriptFile = "$PSScriptRoot\$((Get-Item $ScriptName).BaseName).log"
 $TranscriptFile = Join-Path -Path $PSScriptRoot -ChildPath "$((Get-Item $ScriptName).BaseName).log"
 
 # Configure Powershell verbose preference to always output verbose messages for this script.
@@ -227,7 +220,6 @@ Function Show-FunctionStartText
     # Write-Host used here only to avoid problems in the finally block where Write-Output cannot be used.
     If ($VerbosePreference -eq "Continue") {Write-Host ''}
     Write-Verbose "<<<<<<<<<<<<<<<< BEGIN $($Type.ToUpper()): $($FunctionName.MyCommand.Name) >>>>>>>>>>>>>>>>"
-
 }
 
 
@@ -261,3 +253,4 @@ Function Write-CustomError
 
 # Execute the "MainController" function. This script will not run without the code below.
 MainController
+
