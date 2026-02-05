@@ -136,7 +136,25 @@ Function Start-Function2
     # Variable declaration for troubleshooting and error reporting.
     $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
     
-    Write-Output 'This text is the result of calling Start-Function2.'
+    try
+    {
+        Write-Output 'This text is the result of calling Start-Function2.'
+
+        Write-Warning 'This function is DESIGNED TO FAIL by dividing by zero so you can see what happens with error handling.'
+        Write-Warning 'The catch block will prevent the script from stopping.'
+        Start-Sleep 2
+        $ExpectedError = 1/0 ## Dividing by zero will cause a terminating excpetion.
+    }
+    catch
+    {
+        Write-Warning ''
+		Write-Warning 'ERROR: ===============================[ WARNING ]====================================='
+        Write-Warning "ERROR: FUNCTION_NAME: $($CurrentFunction.MyCommand.Name)"
+        Write-Warning "ERROR: MESSAGE: $($Error[0].Exception.Message)"
+        Write-Warning "ERROR: TYPE: $($Error[0].Exception.GetType().FullName)"
+        Write-Warning "ERROR: LINE: $($Error[0].InvocationInfo.PositionMessage)"
+		Write-Warning 'ERROR: ===============================[ WARNING ]====================================='
+    }
 }
 
 
