@@ -1,0 +1,168 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bash Aliases</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="github-markdown-dark.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="preview" class="markdown-body markdown-card"></div>
+    </div>
+
+    <script>
+      const initialMarkdown =
+
+// Type your Markdown text below this line within the backticks (`)
+`
+
+# Git Cheat Sheet: Most Common Commands
+
+## 1. Setup & Configuration
+\`\`\`bash
+# Set your identity
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+# Initialize a new local repo
+git init
+
+# Clone a remote repo
+git clone <url>
+
+\`\`\`
+
+
+## 2. Daily Workflow
+
+\`\`\`bash
+# View status of changes
+git status
+
+# Stage specific files or all files
+git add <file>
+git add -A
+
+# Commit changes with a message
+git commit -m "Your descriptive message"
+
+# Upload changes to remote
+git push origin <branch-name>
+
+# Download and incorporate remote changes
+git pull origin <branch-name>
+
+\`\`\`
+
+
+## 3. Undoing & Recovery
+
+\`\`\`bash
+# Unstage a file but keep the changes in the file
+git restore --staged <file>
+
+# Discard all local changes in a file (cannot be undone)
+git restore <file>
+
+# Create a new commit that undoes a previous commit
+# (Safest way to undo changes on a shared branch)
+git revert <commit-hash>
+
+# Grab a single commit from another branch and apply it here
+git cherry-pick <commit-hash>
+
+\`\`\`
+
+## 4. Cleaning Untracked Files (git clean)
+
+\`\`\`bash
+# Use this to remove files that are not under version control (untracked).
+
+# 1. Dry run: See what WOULD be deleted without actually doing it
+git clean -n
+
+# 2. Delete untracked files (f = force)
+git clean -f
+
+# 3. Delete untracked files AND untracked directories (d = directories)
+git clean -fd
+
+# 4. Delete untracked files, directories, AND ignored files (x = ignored)
+git clean -fdx
+\`\`\`
+
+
+## 5. Branching & Merging
+
+\`\`\`bash
+# Create a new branch
+git branch <branch-name>
+
+# Switch to a branch
+git switch <branch-name>
+
+# Create and switch to a new branch immediately
+git checkout -b <branch-name>
+
+# Merge another branch into your current branch
+git merge <branch-name>
+
+# Delete a branch
+git branch -d <branch-name>
+
+\`\`\`
+
+
+## 6. Commit Squashing (Interactive Rebase)
+
+Use this to clean up your history before pushing to a main branch.
+
+\`\`\`bash
+# Start rebase for the last N commits (e.g., last 3)
+git rebase -i HEAD~3
+
+\`\`\`
+
+**In the text editor:**
+
+1. Leave the first commit as \`pick\`.
+2. Change the others from \`pick\` to \`squash\` (or \`s\`).
+3. Save and exit.
+4. A second editor opens to let you combine the commit messages.
+
+
+## 7. Utilities & Stashing
+
+\`\`\`bash
+# View a condensed, visual history
+git log --oneline --graph --all
+
+# Save uncommitted changes to a temporary "shelf"
+git stash
+
+# Bring stashed changes back and delete from stash list
+git stash pop
+
+# See the specific code differences
+git diff
+
+\`\`\`
+
+
+`;
+// End of Markdown text
+
+      const preview = document.getElementById("preview");
+
+      function render(markdown) {
+        preview.innerHTML = marked.parse(markdown);
+      }
+
+      render(initialMarkdown);
+    </script>
+    
+  </body>
+</html>
