@@ -36,6 +36,7 @@ param(
 ############################################ SCRIPT VARIABLES #############################################
 ###########################################################################################################
 
+
 # Get script start time to produce a time-of-execution display at the end of this script.
 $StartTime = Get-Date
 
@@ -69,21 +70,22 @@ Function MainController
     
     Try
     {
+        ########## Run Initialization Functions ##########
         Set-VerboseColor
 
         # Variable declaration for troubleshooting and error reporting.
         $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -Type 'Controller' -FunctionName $Script:CurrentFunction
 
-        # Run initialization functions.
         Start-ScriptTranscript  ## Comment out this line if you don't want a transcript log.
+        
+        ########## Run Tool Functions ##########
         Start-Function1
         If (2+2 -eq 4) { Start-Function2 }  ## This function only runs if 2+2 equals 4.
 
-        # Run task helper functions.
         Start-Function3
         Start-Function4  ## This function should error.
 
-        # Run cleanup functions
+        ########## Run Cleanup Functions ##########
         Start-Function5  ## This function should not execute.
 	}
 	Catch
@@ -104,7 +106,7 @@ Function MainController
 
 
 ###########################################################################################################
-############################################ HELPER FUNCTIONS #############################################
+########################################### TEMPLATE FUNCTIONS ############################################
 ###########################################################################################################
 
 
@@ -119,73 +121,6 @@ Function Set-VerboseColor
     $Script:CurrentFunction = $MyInvocation
 
 	$Host.PrivateData.VerboseForegroundColor = "$Color"
-}
-
-
-Function Start-Function1
-{
-    # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
-    
-    Write-Output 'This text is the result of calling Start-Function1.'
-}
-
-
-Function Start-Function2
-{
-    # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
-    
-    try
-    {
-        Write-Output 'This text is the result of calling Start-Function2.'
-
-        Write-Warning 'This function is DESIGNED TO FAIL by dividing by zero so you can see what happens with error handling.'
-        Write-Warning 'The catch block will prevent the script from stopping.'
-        Start-Sleep 2
-        $ExpectedError = 1/0 ## Dividing by zero will cause a terminating excpetion.
-    }
-    catch
-    {
-        Write-Warning ''
-		Write-Warning 'ERROR: ===============================[ WARNING ]====================================='
-        Write-Warning "ERROR: FUNCTION_NAME: $($CurrentFunction.MyCommand.Name)"
-        Write-Warning "ERROR: MESSAGE: $($Error[0].Exception.Message)"
-        Write-Warning "ERROR: TYPE: $($Error[0].Exception.GetType().FullName)"
-        Write-Warning "ERROR: LINE: $($Error[0].InvocationInfo.PositionMessage)"
-		Write-Warning 'ERROR: ===============================[ WARNING ]====================================='
-    }
-}
-
-
-Function Start-Function3
-{
-    # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
-    
-    Write-Output 'This text is the result of calling Start-Function3.'
-}
-
-
-Function Start-Function4
-{
-    # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
-    
-    Write-Output 'This text is the result of calling Start-Function4.'
-    Write-Warning 'This function is DESIGNED TO FAIL by dividing by zero so you can see what happens with error handling.'
-    Start-Sleep 2
-    $ExpectedError = 1/0 ## Dividing by zero will cause a terminating excpetion.
-}
-
-
-Function Start-Function5
-{
-    # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
-    
-    Write-Output 'This text is the result of calling Start-Function5.'
-    Write-Output 'You should not see this function run because the preceeding function should have errored.'
 }
 
 
@@ -265,10 +200,81 @@ Function Write-CustomError
 
 
 ###########################################################################################################
+############################################# TOOL FUNCTIONS ##############################################
+###########################################################################################################
+
+
+Function Start-Function1
+{
+    # Variable declaration for troubleshooting and error reporting.
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    
+    Write-Output 'This text is the result of calling Start-Function1.'
+}
+
+
+Function Start-Function2
+{
+    # Variable declaration for troubleshooting and error reporting.
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    
+    try
+    {
+        Write-Output 'This text is the result of calling Start-Function2.'
+
+        Write-Warning 'This function is DESIGNED TO FAIL by dividing by zero so you can see what happens with error handling.'
+        Write-Warning 'The catch block will prevent the script from stopping.'
+        Start-Sleep 2
+        $ExpectedError = 1/0 ## Dividing by zero will cause a terminating excpetion.
+    }
+    catch
+    {
+        Write-Warning ''
+		Write-Warning '===============================[ WARNING ]====================================='
+        Write-Warning "FUNCTION_NAME: $($CurrentFunction.MyCommand.Name)"
+        Write-Warning "MESSAGE: $($Error[0].Exception.Message)"
+        Write-Warning "TYPE: $($Error[0].Exception.GetType().FullName)"
+        Write-Warning "LINE: $($Error[0].InvocationInfo.PositionMessage)"
+		Write-Warning '===============================[ WARNING ]====================================='
+    }
+}
+
+
+Function Start-Function3
+{
+    # Variable declaration for troubleshooting and error reporting.
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    
+    Write-Output 'This text is the result of calling Start-Function3.'
+}
+
+
+Function Start-Function4
+{
+    # Variable declaration for troubleshooting and error reporting.
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    
+    Write-Output 'This text is the result of calling Start-Function4.'
+    Write-Warning 'This function is DESIGNED TO FAIL by dividing by zero so you can see what happens with error handling.'
+    Start-Sleep 2
+    $ExpectedError = 1/0 ## Dividing by zero will cause a terminating excpetion.
+}
+
+
+Function Start-Function5
+{
+    # Variable declaration for troubleshooting and error reporting.
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    
+    Write-Output 'This text is the result of calling Start-Function5.'
+    Write-Output 'You should not see this function run because the preceeding function should have errored.'
+}
+
+
+###########################################################################################################
 ########################################### SCRIPT EXECUTION ##############################################
 ###########################################################################################################
 
 
 # Execute the "MainController" function. This script will not run without the code below.
 MainController
-
