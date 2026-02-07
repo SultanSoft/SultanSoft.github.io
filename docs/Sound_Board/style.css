@@ -1,0 +1,43 @@
+body {
+    display: flex;
+    flex-direction: column; /* Changed to column to stack buttons vertically */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #1a1a1a; /* Dark background */
+    color: #f0f0f0; /* Light text color */
+}
+
+.container {
+    text-align: center;
+    background-color: #2a2a2a; /* Slightly lighter dark background for container */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Darker shadow */
+    display: flex; /* Use flexbox for button arrangement */
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px; /* Space between buttons */
+}
+
+h1 {
+    color: #e0e0e0; /* Light heading color */
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #555; /* Darker button background */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 250px; /* Ensure buttons have a reasonable minimum width */
+}
+
+button:hover {
+    background-color: #777; /* Lighter hover effect */
+}
