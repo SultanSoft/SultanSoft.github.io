@@ -74,7 +74,7 @@ Function MainController
         Set-VerboseColor
 
         # Variable declaration for troubleshooting and error reporting.
-        $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -Type 'Controller' -FunctionName $Script:CurrentFunction
+        $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -Type 'Controller' -MyInvocationObject $Script:CurrentFunction
 
         Start-ScriptTranscript  ## Comment out this line if you don't want a transcript log.
         
@@ -127,7 +127,7 @@ Function Set-VerboseColor
 Function Start-ScriptTranscript
 {
 	# Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -MyInvocationObject $Script:CurrentFunction
 
 	# Start transcript for this script. Standard output is converted to verbose output using ForEach-Object.
 	Write-Verbose 'Starting Transcript...'
@@ -138,7 +138,7 @@ Function Start-ScriptTranscript
 Function Stop-ScriptTranscript
 {
 	# Variable declaration for troubleshooting and error reporting.
-	$Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+	$Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -MyInvocationObject $Script:CurrentFunction
 
 	# Stop the transcript for this script. Standard output is converted to verbose output using ForEach-Object.
 	Write-Verbose 'Stopping Transcript...'
@@ -149,7 +149,7 @@ Function Stop-ScriptTranscript
 Function Show-ScriptElapsedTime
 {
     # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -MyInvocationObject $Script:CurrentFunction
 
     # Display total script execution time.
     $TotalElapsedTime = [Int](((Get-Date) - $StartTime).TotalSeconds)
@@ -163,7 +163,7 @@ Function Show-FunctionStartText
 {
     Param(
         [Parameter(Mandatory=$true)]
-        [Object]$FunctionName,
+        [Object]$MyInvocationObject,
 
         [Parameter()]
         [ValidateSet('Function', 'Controller')]
@@ -172,7 +172,7 @@ Function Show-FunctionStartText
     
     # Write-Host used here only to avoid problems in the finally block where Write-Output cannot be used.
     If ($VerbosePreference -eq "Continue") {Write-Host ''}
-    Write-Verbose "<<<<<<<<<<<<<<<< BEGIN $($Type.ToUpper()): $($FunctionName.MyCommand.Name) >>>>>>>>>>>>>>>>"
+    Write-Verbose "<<<<<<<<<<<<<<<< BEGIN $($Type.ToUpper()): $($MyInvocationObject.MyCommand.Name) >>>>>>>>>>>>>>>>"
 }
 
 
@@ -207,7 +207,7 @@ Function Write-CustomError
 Function Start-Function1
 {
     # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -MyInvocationObject $Script:CurrentFunction
     
     Write-Output 'This text is the result of calling Start-Function1.'
 }
@@ -216,7 +216,7 @@ Function Start-Function1
 Function Start-Function2
 {
     # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -MyInvocationObject $Script:CurrentFunction
     
     try
     {
@@ -243,7 +243,7 @@ Function Start-Function2
 Function Start-Function3
 {
     # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -MyInvocationObject $Script:CurrentFunction
     
     Write-Output 'This text is the result of calling Start-Function3.'
 }
@@ -252,7 +252,7 @@ Function Start-Function3
 Function Start-Function4
 {
     # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -MyInvocationObject $Script:CurrentFunction
     
     Write-Output 'This text is the result of calling Start-Function4.'
     Write-Warning 'This function is DESIGNED TO FAIL by dividing by zero so you can see what happens with error handling.'
@@ -264,7 +264,7 @@ Function Start-Function4
 Function Start-Function5
 {
     # Variable declaration for troubleshooting and error reporting.
-    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -FunctionName $Script:CurrentFunction
+    $Script:CurrentFunction = $MyInvocation ; Show-FunctionStartText -MyInvocationObject $Script:CurrentFunction
     
     Write-Output 'This text is the result of calling Start-Function5.'
     Write-Output 'You should not see this function run because the preceeding function should have errored.'
@@ -278,3 +278,4 @@ Function Start-Function5
 
 # Execute the "MainController" function. This script will not run without the code below.
 MainController
+
