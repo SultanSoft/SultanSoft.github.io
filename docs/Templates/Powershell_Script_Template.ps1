@@ -231,7 +231,7 @@ Function Start-Function2
     {
         Write-Warning ''
 		Write-Warning '===============================[ WARNING ]====================================='
-        Write-Warning "FUNCTION_NAME: $($CurrentFunction.MyCommand.Name)"
+        Write-Warning "FUNCTION_NAME: $($Script:CurrentFunction.MyCommand.Name)"
         Write-Warning "MESSAGE: $($Error[0].Exception.Message)"
         Write-Warning "TYPE: $($Error[0].Exception.GetType().FullName)"
         Write-Warning "LINE: $($Error[0].InvocationInfo.PositionMessage)"
@@ -278,5 +278,6 @@ Function Start-Function5
 
 # Execute the "MainController" function. This script will not run without the code below.
 MainController
+
 
 
