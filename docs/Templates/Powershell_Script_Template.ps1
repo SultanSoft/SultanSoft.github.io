@@ -186,7 +186,7 @@ Function Write-CustomError
 
         Write-Output ''
 		Write-Output 'ERROR: ===============================[ ERROR ]====================================='
-        Write-Output "ERROR: FUNCTION_NAME: $($CurrentFunction.MyCommand.Name)"
+        Write-Output "ERROR: FUNCTION_NAME: $($Script:CurrentFunction.MyCommand.Name)"
         Write-Output "ERROR: MESSAGE: $($Error[0].Exception.Message)"
         Write-Output "ERROR: TYPE: $($Error[0].Exception.GetType().FullName)"
         Write-Output "ERROR: LINE: $($Error[0].InvocationInfo.PositionMessage)"
@@ -278,4 +278,5 @@ Function Start-Function5
 
 # Execute the "MainController" function. This script will not run without the code below.
 MainController
+
 
