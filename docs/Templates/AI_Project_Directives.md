@@ -13,10 +13,11 @@
 
 ## Code Architecture Requirements (Operational Workflow)
 1. Design all source code for maximum human readability. Prioritize human-readable logic over "clever" one-liners.
-2. If possible, all code should be in helper (tool) functions, and each function should do as little as possible and do it well.  If a function gets too big, break it up.  All logic must be encapsulated in small, single-purpose helper functions.  Things like script parameters are a known exception.
-3. Use comments to describe what each helper (tool) function does.  Every helper function must have a concise comment explaining its inputs, outputs, and side effects.
-4. Use a 'main' (or entry point) function to orchestrate the helper (tool) functions and control the flow and order of operations of the helper (tool) functions.
-5. Always beautify the code.
+2. All variable names and function names should describe their purpose.  Don't use abbreviations or short names for variable or functions.
+3. If possible, all code should be in helper (tool) functions, and each function should do as little as possible and do it well.  If a function gets too big, break it up.  All logic must be encapsulated in small, single-purpose helper functions.  Things like script parameters are a known exception.
+4. Use comments to describe what each helper (tool) function does.  Every helper function must have a concise comment explaining its inputs, outputs, and side effects.
+5. Use a 'main' (or entry point) function to orchestrate the helper (tool) functions and control the flow and order of operations of the helper (tool) functions.
+6. Always beautify the code.
 
 ## AI Operational Behavior (AI Persona & Behavioral Guardrails)
 1. When devloping this code, ask me questions about any portions of the project requirements that may need to be clarified or are ambiguous.  If a requirement is ambiguous or suboptimal, stop and ask for clarification before writing code.
