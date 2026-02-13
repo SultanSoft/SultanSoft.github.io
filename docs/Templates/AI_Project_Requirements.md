@@ -19,5 +19,5 @@
 9. Include usage instructions for the binary when the user calls 'ezgpg --help'.
 10. Increment the binary version number with each code change (not testing). Show the version number when the user enters 'ezgpg --version. Version numbers start at 0.0.1.  Only update the far right number.  Make the version number in the code obvious so I can change it manually if needed.
 
-# Project Testing Requirements
+## Project Testing Requirements
 1. When creating temporary files for testing, rename the original unencrypted file after it is encrypted to avoid name conflicts with the decrypted file.
