@@ -38,6 +38,7 @@
 2. Commit all file changes after every code change except the binary files in the bin folder. If that fails, see the next step below.
 3. At the end of every response where code is modified, provide a specific shell command block containing the `git add -A` and `git commit` commands with a descriptive, conventional commit message (e.g., feat: add encryption logic).
 4. Always update the project version number when any code change has been requested and completed.  Do not update the version number for testing or compilation only.
+5. Never revert or reset a commit without explaining why.  If you think you need to do that, stop and wait for me to authorize before proceeding.
 
 ## Testing Requirements
 1. After every change to the code, compile a new binary with the project name and test. If the source code language is not a compiled language, test the code as interpreted languages do instead.
