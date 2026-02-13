@@ -17,7 +17,7 @@
 3. If possible, all code should be in helper (tool) functions, and each function should do as little as possible and do it well.  If a function gets too big, break it up.  All logic must be encapsulated in small, single-purpose helper functions.  Things like script parameters are a known exception.
 4. Use comments to describe what each helper (tool) function does.  Every helper function must have a concise comment explaining its inputs, outputs, and side effects.
 5. Use a 'main' (or entry point) function to orchestrate the helper (tool) functions and control the flow and order of operations of the helper (tool) functions.
-6. Always use Allmann-style bracketing where possible unless the language cannot use it.
+6. Always use Allman-style bracing where possible unless the language cannot use it.
 7. Always beautify the code.
 
 ## AI Operational Behavior (AI Persona & Behavioral Guardrails)
@@ -37,7 +37,7 @@
 1. Use the .gitignore file to exclude the bin directory and its contents from commits.
 2. Commit all file changes after every code change except the binary files in the bin folder. If that fails, see the next step below.
 3. At the end of every response where code is modified, provide a specific shell command block containing the `git add -A` and `git commit` commands with a descriptive, conventional commit message (e.g., feat: add encryption logic).
-4. Do not update the project version number unless a code change has been requested and completed.
+4. Always update the project version number when any code change has been requested and completed.  Do not update the version number for testing or compilation only.
 
 ## Testing Requirements
 1. After every change to the code, compile a new binary with the project name and test. If the source code language is not a compiled language, test the code as interpreted languages do instead.
