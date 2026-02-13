@@ -4,10 +4,10 @@
 1. Create a project directory with the project name specified in the 'Project Requirements.md' file. All work and files will be contained within this directory.
 2. Initialize a local git repo in this project directory (with no remote) and make an initial commit.
 3. Within the project directory, create the following subdirectories:
-  - bin
-  - docs
-  - source
-  - test
+    - bin
+    - docs
+    - source
+    - test
 4. Put the compiled binaries into the 'bin' folder.  Put the source code into the 'source' folder.  Put files used for testing into 'test'.  Put all other files into the 'docs' folder.  The .gitignore file and .git folder are known exceptions and can stay in the parent project folder.
 5. Execute this 'Initial Setup' phase first. Stop and wait for my confirmation before proceeding so I can manually validate the folder structure.
 
@@ -17,7 +17,8 @@
 3. If possible, all code should be in helper (tool) functions, and each function should do as little as possible and do it well.  If a function gets too big, break it up.  All logic must be encapsulated in small, single-purpose helper functions.  Things like script parameters are a known exception.
 4. Use comments to describe what each helper (tool) function does.  Every helper function must have a concise comment explaining its inputs, outputs, and side effects.
 5. Use a 'main' (or entry point) function to orchestrate the helper (tool) functions and control the flow and order of operations of the helper (tool) functions.
-6. Always beautify the code.
+6. Always use Allmann-style bracketing where possible unless the language cannot use it.
+7. Always beautify the code.
 
 ## AI Operational Behavior (AI Persona & Behavioral Guardrails)
 1. When devloping this code, ask me questions about any portions of the project requirements that may need to be clarified or are ambiguous.  If a requirement is ambiguous or suboptimal, stop and ask for clarification before writing code.
@@ -32,10 +33,7 @@
 2. Make coding decisions or make suggestions that align with best security practices and avoid common vulnerabilities.
 3. If I make a request or suggestion that is unsafe or insecure, notify me and provide or suggest alternative solutions.  The same goes for the project requirements section below.
 
-4. Mandate the use of `memset` to zero out buffers containing passwords or sensitive data immediately after use. Avoid `strcpy` in favor of `strncpy` or `strlcpy` to prevent buffer overflows.
-5. Prefer `execvp` or `posix_spawn` for calling external binaries over `system()` to mitigate shell injection risks.
-
-## Version Control (Git)
+## Version Control Requirements (Git)
 1. Use the .gitignore file to exclude the bin directory and its contents from commits.
 2. Commit all file changes after every code change except the binary files in the bin folder. If that fails, see the next step below.
 3. At the end of every response where code is modified, provide a specific shell command block containing the `git add -A` and `git commit` commands with a descriptive, conventional commit message (e.g., feat: add encryption logic).
@@ -44,7 +42,6 @@
 ## Testing Requirements
 1. After every change to the code, compile a new binary with the project name and test. If the source code language is not a compiled language, test the code as interpreted languages do instead.
 2. Ensure all tests are non-interactive if possible.
-3. When creating temporary files for testing, rename the original unencrypted file after it is encrypted to avoid name conflicts with the decrypted file.
 4. Delete all temporary testing files after the test completes.  Tests must include a "tear-down" step to remove temporary files or artifacts created during the process.
 
 ## Language-Specific Requirements
