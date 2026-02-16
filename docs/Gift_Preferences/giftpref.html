@@ -4,19 +4,17 @@
     <meta charset="utf-8">
     <title>Gift Preferences</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="github-markdown-dark.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://sultansoft.github.io/Templates/Markdown-To-HTML-Template/github-markdown-dark.min.css">
+    <link rel="stylesheet" href="https://sultansoft.github.io/Templates/Markdown-To-HTML-Template/styles.css">
   </head>
   <body>
     <div class="container">
       <div id="preview" class="markdown-body markdown-card"></div>
     </div>
 
-    <script>
-      const initialMarkdown =
+    <!-- Place markdown text in the script block below -->
+    <script type="text/markdown" id="markdown-source">
 
-// Type your Markdown text below this line within the backticks (`)
-`
 # My Gift Preferences
 
 ## Please read:
@@ -36,27 +34,10 @@ However, if you still feel compelled to get me a holiday gift, please use one of
 [AmazonLink]: <https://www.amazon.com/Amazon-Physical-Gift-Card-Amazon-Smile-Mini-Envelope/dp/B0DMNJ1LN7?_encoding=UTF8&gpo=10> "Amazon Gift Card"
 [SteamLink]: <https://store.steampowered.com/digitalgiftcards/selectgiftcard> "Steam Gift Card"
 
-`;
-// End of Markdown text
-
-      const preview = document.getElementById("preview");
-
-      function render(markdown) {
-        preview.innerHTML = marked.parse(markdown);
-      }
-
-      render(initialMarkdown);
     </script>
+    <!-- End of markdown text -->
+
+    <script src="https://sultansoft.github.io/Templates/Markdown-To-HTML-Template/scripts.js"></script>
     
   </body>
 </html>
-
-
-<!-- ### [Home Depot Gift Card:][HomeDepotLink]
-[![HomeDepot Card](images/HomeDepotCard.png)][HomeDepotLink]
-
-### [Costco Shop Gift Card:][CostcoLink]
-[![HomeDepot Card](images/CostcoCard.png)][CostcoLink]
-
-### [Amazon Gift Card:][AmazonLink]
-[![HomeDepot Card](images/AmazonCard.png)][AmazonLink] -->

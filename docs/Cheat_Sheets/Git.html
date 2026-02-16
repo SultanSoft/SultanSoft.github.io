@@ -1,28 +1,24 @@
-
 <!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Git Cheat Sheet</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="github-markdown-dark.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://sultansoft.github.io/Templates/Markdown-To-HTML-Template/github-markdown-dark.min.css">
+    <link rel="stylesheet" href="https://sultansoft.github.io/Templates/Markdown-To-HTML-Template/styles.css">
   </head>
   <body>
     <div class="container">
       <div id="preview" class="markdown-body markdown-card"></div>
     </div>
 
-    <script>
-      const initialMarkdown =
-
-// Type your Markdown text below this line within the backticks (`)
-`
+    <!-- Place markdown text in the script block below -->
+    <script type="text/markdown" id="markdown-source">
 
 # Git Cheat Sheet: Most Common Commands
 
 ## 1. Setup & Configuration
-\`\`\`bash
+```bash
 # Set your identity
 git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
@@ -33,12 +29,12 @@ git init
 # Clone a remote repo
 git clone <url>
 
-\`\`\`
+```
 
 
 ## 2. Daily Workflow
 
-\`\`\`bash
+```bash
 # View status of changes
 git status
 
@@ -55,12 +51,12 @@ git push origin <branch-name>
 # Download and incorporate remote changes
 git pull origin <branch-name>
 
-\`\`\`
+```
 
 
 ## 3. Undoing & Recovery
 
-\`\`\`bash
+```bash
 # Unstage a file but keep the changes in the file
 git restore --staged <file>
 
@@ -74,11 +70,12 @@ git revert <commit-hash>
 # Grab a single commit from another branch and apply it here
 git cherry-pick <commit-hash>
 
-\`\`\`
+```
+
 
 ## 4. Cleaning Untracked Files (git clean)
 
-\`\`\`bash
+```bash
 # Use this to remove files that are not under version control (untracked).
 
 # 1. Dry run: See what WOULD be deleted without actually doing it
@@ -92,12 +89,12 @@ git clean -fd
 
 # 4. Delete untracked files, directories, AND ignored files (x = ignored)
 git clean -fdx
-\`\`\`
+```
 
 
 ## 5. Branching & Merging
 
-\`\`\`bash
+```bash
 # Create a new branch
 git branch <branch-name>
 
@@ -113,30 +110,30 @@ git merge <branch-name>
 # Delete a branch
 git branch -d <branch-name>
 
-\`\`\`
+```
 
 
 ## 6. Commit Squashing (Interactive Rebase)
 
 Use this to clean up your history before pushing to a main branch.
 
-\`\`\`bash
+```bash
 # Start rebase for the last N commits (e.g., last 3)
 git rebase -i HEAD~3
 
-\`\`\`
+```
 
 **In the text editor:**
 
-1. Leave the first commit as \`pick\`.
-2. Change the others from \`pick\` to \`squash\` (or \`s\`).
+1. Leave the first commit as `pick`.
+2. Change the others from `pick` to `squash` (or `s`).
 3. Save and exit.
 4. A second editor opens to let you combine the commit messages.
 
 
 ## 7. Utilities & Stashing
 
-\`\`\`bash
+```bash
 # View a condensed, visual history
 git log --oneline --graph --all
 
@@ -149,20 +146,12 @@ git stash pop
 # See the specific code differences
 git diff
 
-\`\`\`
+```
 
-
-`;
-// End of Markdown text
-
-      const preview = document.getElementById("preview");
-
-      function render(markdown) {
-        preview.innerHTML = marked.parse(markdown);
-      }
-
-      render(initialMarkdown);
     </script>
+    <!-- End of markdown text -->
+
+    <script src="https://sultansoft.github.io/Templates/Markdown-To-HTML-Template/scripts.js"></script>
     
   </body>
 </html>
