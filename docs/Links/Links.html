@@ -13,6 +13,9 @@
             margin: 1em;
             background-color: #000;
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 95vh;
         }
         .search-container {
             display: flex;
@@ -49,8 +52,9 @@
         }
         .columns {
             display: grid;
-            grid-template-columns: repeat(5, auto); /* <-- UPDATED: Changed from 1fr to auto */
+            grid-template-columns: repeat(5, auto);
             gap: 1em;
+            flex-grow: 1;
         }
         .markdown-body {
             background-color: #1a1a1a;
@@ -87,15 +91,32 @@
         .markdown-body a:hover {
             text-decoration: underline;
         }
-        .bottom-nav a {
-            color: #1e90ff;
-            font-size: 1.44em;
-            text-decoration: none;
-            margin: 0 0.5em;
-            font-weight: bold;
+
+        /* Tab Navigation Styles */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.8em;
+            gap: 1em;
+            padding-bottom: 0em;
         }
-        .bottom-nav a:hover {
-            text-decoration: underline;
+        .tab-button {
+            padding: 0.4em 2em;
+            font-size: 1.2em;
+            font-weight: bold;
+            background-color: #333;
+            color: #1e90ff;
+            border: 2px solid #1e90ff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-button:hover {
+            background-color: #444;
+        }
+        .tab-button.active {
+            background-color: #1e90ff;
+            color: white;
         }
     </style>
 </head>
@@ -110,7 +131,7 @@
         </form>
     </div>
 
-    <div class="columns">
+    <div class="columns" id="content-columns">
         <div class="markdown-body" id="col1"></div>
         <div class="markdown-body" id="col2"></div>
         <div class="markdown-body" id="col3"></div>
@@ -118,12 +139,16 @@
         <div class="markdown-body" id="col5"></div>
     </div>
 
-    <script>
-        window.onload = function() {
-            document.getElementById('google-search').focus();
-        };
+    <div class="tab-nav">
+        <button class="tab-button active" onclick="switchTab(0)">Page 1</button>
+        <button class="tab-button" onclick="switchTab(1)">Page 2</button>
+        <button class="tab-button" onclick="switchTab(2)">Page 3</button>
+    </div>
 
-        const markdownColumns = [
+    <script>
+        const tabData = [
+            // Page 1 Data
+            [
 `
 ## Aggregated Train Cams
 [Live Trains](Projects/Trains/Live_Trains_x9.html)  
@@ -215,17 +240,105 @@
 [Adblock-Tester](https://adblock-tester.com/)  
 [Bluetooth Keyboard & Mouse](https://play.google.com/store/apps/details?id=io.appground.blek&hl=en_IN&gl=US)  
 `
+            ],
+            // Page 2 Data (Placeholder)
+            [
+`
+## Powershell
+[PS Function Template (Robins)](https://mikefrobbins.com/2016/07/14/powershell-function-for-creating-a-powershell-function-template/)  
+[PS Function Template](https://arconnetblog.wordpress.com/2017/05/07/my-function-template/)  
+[Copy-Item Double Hop](https://www.reddit.com/r/PowerShell/comments/5zrlyo/does_copyitem_not_work_when_run_with_invokecommand/?utm_source=amp&utm_medium=&utm_content=comments_view_all)  
+[Relative Path Conversion](https://satob.hatenablog.com/entry/2017/03/16/010222)  
+[Mandatory & Optional Parameters](https://www.idera.com/blogs/make-parameters-mandatory-and-optional-at-the-same-time/)  
+[Awesome Powershell](https://github.com/janikvonrotz/awesome-powershell/blob/master/README.md)  
+[Modules](https://adamtheautomator.com/powershell-modules/)  
+[File-Based Data](https://www.red-gate.com/simple-talk/sysadmin/powershell/powershell-data-basics-file-based-data/)  
+[PS Template](https://thesysadminchannel.com/powershell-template/)  
+[NodePS](https://github.com/TLaborde/NodePS)  
+[Run PS Script As Service](https://4sysops.com/archives/how-to-run-a-powershell-script-as-a-windows-service/)  
+
+## My Powershell Templates
+[Powershell Script Template](https://github.com/SultanSoft/SultanSoft.github.io/blob/master/docs/Code/Templates/Powershell/Powershell_Script_Template.ps1)  
+`,
+`
+## Git
+[Clean up Git branches](https://devconnected.com/how-to-clean-up-git-branches/)  
+
+## Bash Scripts
+[Install Powershell on Linux](https://github.com/SultanSoft/SultanSoft.github.io/blob/master/docs/Code/Scripts/Bash/install_powershell_any_linux.sh)  
+[Install Gemini-cli](https://github.com/SultanSoft/SultanSoft.github.io/blob/master/docs/Code/Scripts/Bash/install_gemini-cli.sh)  
+
+## AI Templates
+[AI Project Directives](https://github.com/SultanSoft/SultanSoft.github.io/blob/master/docs/Code/Templates/AI/AI_Project_Directives.md)  
+[AI Project Requirements Sample](https://github.com/SultanSoft/SultanSoft.github.io/blob/master/docs/Code/Templates/AI/AI_Project_Requirements.md)  
+
+## HTML Templates
+[Markdown to HTML Template](https://github.com/SultanSoft/SultanSoft.github.io/blob/master/docs/Code/Templates/Web/Markdown-To-HTML-Template/Markdown-To-HTML-Template.html) | [View](Code/Templates/Web/Markdown-To-HTML-Template/Markdown-To-HTML-Template.html)  
+`,
+`## Ansible
+[Loop blocks of code in Ansible](https://ericsysmin.com/2019/06/20/how-to-loop-blocks-of-code-in-ansible/)  
+`,
+`
+## Keyboard
+[Keyboard shortcut map maker](https://archie-adams.github.io/keyboard-shortcut-map-maker/)  
+[Keyboard layout editor](https://www.keyboard-layout-editor.com/#/)  
+`,
+`
+## Other
+[Webstaurant](https://www.webstaurantstore.com/regency-18-x-72-x-74-nsf-chrome-4-shelf-kit/460EC1872K74.html)  
+[GMRS eCFR](https://www.ecfr.gov/current/title-47/chapter-I/subchapter-D/part-95/subpart-E)  
+`
+            ],
+            // Page 3 Data (Placeholder)
+            [
+`
+## Under Construction
+[Placeholder](http://example.com)  
+`,
+`
+## Under Construction
+[]()  
+`,
+`## Under Construction
+[]()  
+`,
+`
+## Under Construction
+[]()  
+`,
+`
+## Under Construction
+[]()  
+`
+            ]
         ];
 
-        markdownColumns.forEach((md, i) => {
-            document.getElementById(`col${i + 1}`).innerHTML = marked.parse(md);
-        });
-    </script>
+        function renderTab(tabIndex) {
+            const columns = tabData[tabIndex];
+            columns.forEach((md, i) => {
+                document.getElementById(`col${i + 1}`).innerHTML = marked.parse(md);
+            });
+            
+            // Update active button state
+            document.querySelectorAll('.tab-button').forEach((btn, idx) => {
+                if (idx === tabIndex) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
 
-    <div class="bottom-nav" style="text-align: center; margin-top: 2em;">
-        <a href="Links/Links.html">-- Page 1 --</a>
-        <a href="Links/Links2.html">-- Page 2 --</a>
-        <a href="Links/Links3.html">-- Page 3 --</a>
-    </div>
+        function switchTab(tabIndex) {
+            renderTab(tabIndex);
+            // Optional: Scroll to top when switching tabs
+            window.scrollTo(0, 0);
+        }
+
+        window.onload = function() {
+            document.getElementById('google-search').focus();
+            renderTab(0); // Load Page 1 by default
+        };
+    </script>
 </body>
 </html>
