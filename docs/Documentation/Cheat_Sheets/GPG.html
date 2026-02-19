@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GPG Cheat Sheet</title>  <!-- RENAME THIS! -->
+    <base href="../../">  <!-- IMPORTANT!!! Adjust the base path to the site root (/docs) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="Code/Templates/Web/Markdown-To-HTML-Template/Assets/CSS/github-markdown-dark.min.css">
+    <link rel="stylesheet" href="Code/Templates/Web/Markdown-To-HTML-Template/Assets/CSS/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="preview" class="markdown-body markdown-card"></div>
+    </div>
+
+    <!-- Place markdown text in the script block below -->
+    <script type="text/markdown" id="markdown-source">
+
+## GPG Encryption & Decryption Cheat Sheet
+
+### 1. Symmetric Encryption (Passphrase Only)
+
+Symmetric encryption uses the same passphrase to encrypt and decrypt the file. It is quick and does not require you to manage or share public keys.
+
+* **Basic Symmetric Encryption:**
+```bash
+gpg --symmetric filename.txt
+
+```
+
+
+*(Shorthand: `gpg -c filename.txt`)*
+This prompts you for a passphrase and creates `filename.txt.gpg`.
+* **Symmetric Encryption (Specifying Cipher):**
+By default, GPG might use older algorithms depending on your version. It is best practice to force a strong algorithm like AES256.
+```bash
+gpg --symmetric --cipher-algo AES256 filename.txt
+
+```
+
+
+
+---
+
+### 2. Asymmetric Encryption (Public / Private Keys)
+
+Asymmetric encryption uses a recipient's **public key** to encrypt the file. Only the person holding the corresponding **private key** can decrypt it.
+
+> **Note:** You must have the recipient's public key imported into your GPG keyring first (`gpg --import publickey.asc`).
+
+* **Basic Asymmetric Encryption:**
+```bash
+gpg --encrypt --recipient "recipient@example.com" filename.txt
+
+```
+
+
+*(Shorthand: `gpg -e -r "recipient@example.com" filename.txt`)*
+This creates `filename.txt.gpg` which can only be opened by the specified recipient.
+* **Encrypting for Multiple Recipients:**
+You can add multiple `-r` flags so several people (including yourself) can decrypt the file.
+```bash
+gpg -e -r "user1@example.com" -r "user2@example.com" filename.txt
+
+```
+
+
+* **Sign and Encrypt Simultaneously:**
+This encrypts the file for the recipient and signs it with *your* private key so they can verify it came from you.
+```bash
+gpg --sign --encrypt --recipient "recipient@example.com" filename.txt
+
+```
+
+
+
+---
+
+### 3. Decrypting Files
+
+The decryption command is exactly the same whether the file was encrypted symmetrically or asymmetrically. GPG will automatically detect the encryption method and either prompt you for the symmetric passphrase or for the passphrase to unlock your private key.
+
+* **Decrypt and output to terminal (Standard Out):**
+```bash
+gpg --decrypt filename.txt.gpg
+
+```
+
+
+*(Shorthand: `gpg -d filename.txt.gpg`)*
+* **Decrypt and save to a file:**
+```bash
+gpg --decrypt filename.txt.gpg > decrypted_filename.txt
+
+```
+
+
+*Alternatively, using the output flag:*
+```bash
+gpg --output decrypted_filename.txt --decrypt filename.txt.gpg
+
+```
+
+
+
+---
+
+### 4. Quick Reference: Common Flags
+
+| Flag | Shorthand | Description |
+| --- | --- | --- |
+| `--symmetric` | `-c` | Encrypt with a symmetric cipher using a passphrase. |
+| `--encrypt` | `-e` | Encrypt data using an asymmetric public key. |
+| `--recipient` | `-r` | Specify the recipient's name or email for asymmetric encryption. |
+| `--decrypt` | `-d` | Decrypt a file (GPG auto-detects encryption type). |
+| `--output` | `-o` | Specify the output file name (instead of standard out). |
+| `--armor` | `-a` | Create an ASCII armored output (creates a `.asc` text file instead of a binary `.gpg` file). |
+
+
+---
+
+To use asymmetric encryption, you need your own private/public key pair, and you need to exchange public keys with anyone you wish to communicate with.
+
+### 5. Key Management (Generating, Exporting, and Importing)
+
+#### Generating Keys
+
+If you don't already have a GPG key pair, you will need to generate one.
+
+* **Generate a New Key Pair (Interactive):**
+```bash
+gpg --full-generate-key
+
+```
+
+
+*This will prompt you to select the key type (RSA is standard), key size (4096 is recommended for strong security), expiration date, and your user identity (Name and Email).*
+* **Generate a Key Pair (Quick/Default settings):**
+```bash
+gpg --generate-key
+
+```
+
+
+*A faster option that uses secure defaults for algorithm and key size.*
+
+#### Listing Keys
+
+To see the keys currently stored in your local GPG keyring:
+
+* **List Public Keys:**
+```bash
+gpg --list-keys
+
+```
+
+
+*(Shorthand: `gpg -k`)*
+Use this to verify which recipients' public keys you have available for encrypting files.
+* **List Private (Secret) Keys:**
+```bash
+gpg --list-secret-keys
+
+```
+
+
+*(Shorthand: `gpg -K`)*
+Use this to see your own keys available for decrypting or signing.
+
+#### Exporting Keys
+
+To receive encrypted files from someone else, you must send them your **public key**.
+
+> **Warning:** Never share your private (secret) key unless you are strictly backing it up to a secure, offline location.
+
+* **Export Public Key:**
+```bash
+gpg --armor --export "your@email.com" > my_public_key.asc
+
+```
+
+
+*The `--armor` flag ensures the output is plain text so it can be easily emailed or pasted into a message.*
+* **Export Private Key (For Backup ONLY):**
+```bash
+gpg --armor --export-secret-keys "your@email.com" > my_private_key_backup.asc
+
+```
+
+
+
+#### Importing Keys
+
+When someone sends you their public key so you can encrypt files for them, you must import it into your keyring.
+
+* **Import a Key (Public or Private):**
+```bash
+gpg --import their_public_key.asc
+
+```
+
+
+
+#### Trusting an Imported Key
+
+After importing a public key, GPG might warn you that the key is "untrusted" when you try to use it. To fix this, you need to sign the key or assign it a trust level.
+
+* **Edit the Key's Trust Level:**
+```bash
+gpg --edit-key "recipient@email.com"
+
+```
+
+
+*This opens the interactive GPG prompt. Type `trust`, press Enter, and select the appropriate level of trust (e.g., `5` for ultimate trust if you are certain the key belongs to them). Then type `save` and press Enter to exit.*
+
+
+    </script>
+    <!-- End of markdown text -->
+
+    <script src="Code/Templates/Web/Markdown-To-HTML-Template/Assets/JS/scripts.js"></script>
+    
+  </body>
+</html>

@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SSH Cheat Sheet</title>  <!-- RENAME THIS! -->
+    <base href="../../">  <!-- IMPORTANT!!! Adjust the base path to the site root (/docs) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="Code/Templates/Web/Markdown-To-HTML-Template/Assets/CSS/github-markdown-dark.min.css">
+    <link rel="stylesheet" href="Code/Templates/Web/Markdown-To-HTML-Template/Assets/CSS/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div id="preview" class="markdown-body markdown-card"></div>
+    </div>
+
+    <!-- Place markdown text in the script block below -->
+    <script type="text/markdown" id="markdown-source">
+
+## 1. The Basics: Connecting
+
+The bread and butter of remote management.
+
+* **Standard Connection:**
+```bash
+ssh username@remote_host
+
+```
+
+
+* **Connect on a Specific Port:**
+```bash
+ssh -p 2222 username@remote_host
+
+```
+
+
+* **Run a Command and Exit:**
+```bash
+ssh username@remote_host "ls -la"
+
+```
+
+
+
+---
+
+## 2. Key Generation & Management
+
+Using SSH keys is significantly more secure than passwords. Think of the private key as your physical house key and the public key as the lock.
+
+### Generating Keys
+
+* **Modern (ED25519) - Recommended:** Faster and more secure.
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+```
+
+
+* **Legacy (RSA 4096-bit):**
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+```
+
+
+
+### Copying Keys to a Server
+
+* **The Automated Way:**
+```bash
+ssh-copy-id username@remote_host
+
+```
+
+
+* **The Manual Way (if `ssh-copy-id` is missing):**
+```bash
+cat ~/.ssh/id_ed25519.pub | ssh username@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+
+```
+
+
+
+---
+
+## 3. The SSH Config File (`~/.ssh/config`)
+
+Tired of remembering IP addresses and ports? Create a config file to use "nicknames" for your servers.
+
+**Example Entry:**
+
+```text
+Host dev-server
+    HostName 192.168.1.50
+    User my-username
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519
+
+```
+
+**Now you can just type:**
+
+```bash
+ssh dev-server
+
+```
+
+---
+
+## 4. Permissions (The "Don't Lock Yourself Out" Section)
+
+SSH is very picky about permissions. If your files are too "world-readable," SSH will refuse to use them for security reasons.
+
+| File/Folder | Recommended Permission | Command |
+| --- | --- | --- |
+| `.ssh` directory | `700` (drwx------) | `chmod 700 ~/.ssh` |
+| Private Key | `600` (-rw-------) | `chmod 600 ~/.ssh/id_ed25519` |
+| Public Key | `644` (-rw-r--r--) | `chmod 644 ~/.ssh/id_ed25519.pub` |
+| `authorized_keys` | `600` (-rw-------) | `chmod 600 ~/.ssh/authorized_keys` |
+
+---
+
+## 5. SSH Agent (Managing Passphrases)
+
+If you put a passphrase on your key (and you should!), the `ssh-agent` saves you from typing it every single time you connect.
+
+* **Start the agent:**
+```bash
+eval "$(ssh-agent -s)"
+
+```
+
+
+* **Add your key to the agent:**
+```bash
+ssh-add ~/.ssh/id_ed25519
+
+```
+
+
+
+---
+
+## 6. Pro Tips & Troubleshooting
+
+* **Check Connection Verbosity:** If a connection is failing, use `-v` (or `-vvv` for deep dive) to see exactly where it hangs.
+```bash
+ssh -v username@remote_host
+
+```
+
+
+* **Fix "Host Key Verification Failed":** If a server's identity has changed (e.g., you reinstalled the OS), clear the old entry:
+```bash
+ssh-keygen -R remote_host_ip
+
+```
+
+
+
+> **Note:** Never, ever share your **private key** (the one without the `.pub` extension). It’s the equivalent of handing someone the keys to your digital kingdom.
+
+    </script>
+    <!-- End of markdown text -->
+
+    <script src="Code/Templates/Web/Markdown-To-HTML-Template/Assets/JS/scripts.js"></script>
+    
+  </body>
+</html>
