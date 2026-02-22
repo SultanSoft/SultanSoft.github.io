@@ -27,7 +27,7 @@ function addCopyButtons() {
 
     // Add click event listener to copy text to clipboard
     button.addEventListener('click', () => {
-      const code = pre.textContent; // Get the raw text inside the pre/code block
+      const code = pre.textContent.trim(); // Get the raw text inside the pre/code block
       navigator.clipboard.writeText(code).then(() => {
         button.innerText = 'Copied!';
         setTimeout(() => {
