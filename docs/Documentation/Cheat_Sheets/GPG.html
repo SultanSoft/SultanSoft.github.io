@@ -34,7 +34,7 @@ This prompts you for a passphrase and creates `filename.txt.gpg`.
 * **Symmetric Encryption (Specifying Cipher):**
 By default, GPG might use older algorithms depending on your version. It is best practice to force a strong algorithm like AES256.
 ```bash
-gpg --symmetric --cipher-algo AES256 filename.txt
+gpg --symmetric --s2k-cipher-algo AES256 --s2k-digest-algo SHA512 --s2k-count 65011712 filename.txt
 
 ```
 
